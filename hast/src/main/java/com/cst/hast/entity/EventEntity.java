@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 
 @Entity
 @Getter
-@DynamicInsert // Apply changed fields only
-@DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "event")

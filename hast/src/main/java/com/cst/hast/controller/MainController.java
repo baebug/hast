@@ -27,13 +27,13 @@ public class MainController {
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
-    @GetMapping("/nation/eng/{wordId}")
+    @GetMapping("/eng/{wordId}")
     public ResponseEntity<?> getNationEngInfo(@PathVariable String wordId) {
         log.info("(ENG) 국가 기본 정보 조회");
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
-    @GetMapping("/nation/kor/{wordId}")
+    @GetMapping("/kor/{wordId}")
     public ResponseEntity<?> getNationKorInfo(@PathVariable String wordId) {
         log.info("(KOR) 국가 기본 정보 조회");
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
@@ -47,11 +47,11 @@ public class MainController {
 
     @GetMapping("/articles/{worldId}")
     public ResponseEntity<?> getNationArticles(@PathVariable String wolrdId) {
-        log.info("기사 조회 (각 기사의 ton 정보 포함)");
+        log.info("국가 기사 조회 (각 기사의 ton 정보 포함)");
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
     }
 
-    @GetMapping("articles/{lat}/{lon}")
+    @GetMapping("/articles/{lat}/{lon}")
     public ResponseEntity<?> getCityArticles(@PathVariable String lan, @PathVariable String lon) {
         log.info("지역 뉴스 조회");
         return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));

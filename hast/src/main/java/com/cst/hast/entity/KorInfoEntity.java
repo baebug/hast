@@ -7,12 +7,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
-@DynamicInsert // Apply changed fields only
-@DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "info")
-public class InfoEntity {
+@Table (name = "kor_info")
+public class KorInfoEntity {
 
 	@Id
    	@Column(name = "world_id")
