@@ -1,10 +1,15 @@
 package com.cst.hast.dto.respDto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Builder
+@ToString
 public class WorldInfoDto {
 
     private Long wordId;

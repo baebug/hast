@@ -16,7 +16,7 @@ public class EngInfoEntity {
    	@Column(name = "world_id")
 	private Long worldId;
 
-   	@Column(name = "info_name")
+	@Column(name = "info_name")
 	private String infoName;
 
    	@Column(name = "info_capital")
@@ -30,6 +30,5 @@ public class EngInfoEntity {
 
    	@Column(name = "info_popul")
 	private Integer infoPopul;
-
 
 }

@@ -1,8 +1,13 @@
 package com.cst.hast.dto.respDto;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Builder
+@ToString
 public class CountryInfoDto {
 
     private Long wordId;
@@ -10,6 +15,6 @@ public class CountryInfoDto {
     private String capital;
     private String money;
     private String size;
-    private String population;
+    private Integer population;
 
 }
