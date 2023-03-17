@@ -2,7 +2,6 @@ package com.cst.hast.entity;
 
 import javax.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
@@ -13,8 +12,13 @@ import org.hibernate.annotations.DynamicUpdate;
 public class SafetyEntity {
 
 	@Id
-   	@Column(name = "world_id")
+	@JoinColumn(name = "world_id")
 	private Long worldId;
+
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "world_id")
+	private WorldEntity worldEntity;
 
    	@Column(name = "safety1")
 	private Long safety1;

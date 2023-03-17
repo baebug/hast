@@ -1,9 +1,6 @@
 package com.cst.hast.service;
 
-import com.cst.hast.dto.respDto.ArticleDto;
-import com.cst.hast.dto.respDto.CountryInfoDto;
-import com.cst.hast.dto.respDto.UpdateArticleDto;
-import com.cst.hast.dto.respDto.WorldInfoDto;
+import com.cst.hast.dto.respDto.*;
 import com.cst.hast.entity.SafetyEntity;
 
 import java.util.List;
@@ -14,14 +11,13 @@ public interface MainService {
 
     List<UpdateArticleDto> getUpdateArticles();
 
-//    List<CountryInfoDto> getKorCountryInfo();
-//
-//    List<CountryInfoDto> getEngCountryInfo();
+    List<CountryInfoDto> getKorCountryInfo();
 
-    List<SafetyEntity> getSafety(Long wordId);
+    List<CountryInfoDto> getEngCountryInfo();
+
+    SafetyDto getSafety(Long wordId);
 
     List<ArticleDto> getCountryArticles(Long wordId);
 
-    List<ArticleDto> getCityArticles();
-
+    List<ArticleDto> getCityArticles(float lat, float lon);
 }

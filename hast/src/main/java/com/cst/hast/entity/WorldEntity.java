@@ -36,4 +36,5 @@ public class WorldEntity {
    	@Column(name = "world_longtitude")
 	private BigDecimal worldLongtitude;
 
+
 }

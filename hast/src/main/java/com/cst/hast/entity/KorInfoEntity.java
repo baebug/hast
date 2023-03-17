@@ -13,10 +13,16 @@ import org.hibernate.annotations.DynamicUpdate;
 public class KorInfoEntity {
 
 	@Id
-   	@Column(name = "world_id")
+	@JoinColumn(name = "world_id")
 	private Long worldId;
 
-   	@Column(name = "info_name")
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "world_id")
+	private WorldEntity worldEntity;
+
+
+	@Column(name = "info_name")
 	private String infoName;
 
    	@Column(name = "info_capital")

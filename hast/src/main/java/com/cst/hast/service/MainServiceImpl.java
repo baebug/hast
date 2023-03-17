@@ -16,7 +16,8 @@ import java.util.List;
 public class MainServiceImpl implements MainService {
 
     private final EngInfoRepository engInfoRepository;
-    private final EventRepository eventRepository;
+    private final MentionRepository mentionRepository;
+    private final ArticleRepository articleRepository;
     private final GkgRepository gkgRepository;
     private final KorInfoRepository korInfoRepository;
     private final SafetyRepository safetyRepository;
@@ -41,78 +42,68 @@ public class MainServiceImpl implements MainService {
         return respList;
     }
 
-    // gkg + event
     @Override
     public List<UpdateArticleDto> getUpdateArticles() {
-        List<EventEntity> eventList = eventRepository.findAll();
-        List<GkgEntity> gkgList = gkgRepository.findAll();
+        List<ArticleEntity> articleList = articleRepository.findAll();
 
         List<UpdateArticleDto> respList = new ArrayList<>();
 
-        for(EventEntity event : eventList) {
+        for(ArticleEntity article : articleList) {
             UpdateArticleDto resp = UpdateArticleDto.builder()
-                    .url(event.getEventUrl())
-//                    .headline(event.)
+                    .url(article.getUrl())
+                    .headline(article.getHeadline())
                     .build();
             respList.add(resp);
         }
-
-        for(GkgEntity gkg : gkgList) {
-            UpdateArticleDto resp = UpdateArticleDto.builder()
-                    .url(gkg.getGkgUrl())
-//                    .headline(gkg.)
-                    .build();
-            respList.add(resp);
-        }
-
 
         return respList;
     }
 
-//    @Override
-//    public List<CountryInfoDto> getKorCountryInfo() {
-//        List<KorInfoEntity> countryList = korInfoRepository.findAll();
-//
-//        List<CountryInfoDto> respList = new ArrayList<>();
-//        for(KorInfoEntity korInfo : countryList) {
-//            CountryInfoDto resp = CountryInfoDto.builder()
-//                    .wordId(korInfo.getWorldId())
-//                    .name(korInfo.getInfoName())
-//                    .capital(korInfo.getInfoCapital())
-//                    .money(korInfo.getInfoMoney())
-//                    .population(korInfo.getInfoPopul())
-//                    .size(korInfo.getInfoSize())
-//                    .build();
-//
-//            respList.add(resp);
-//        }
-//
-//        return respList;
-//    }
-//
-//    @Override
-//    public List<CountryInfoDto> getEngCountryInfo() {
-//        List<EngInfoEntity> countryList = engInfoRepository.findAll();
-//
-//        List<CountryInfoDto> respList = new ArrayList<>();
-//        for(EngInfoEntity engInfo : countryList) {
-//            CountryInfoDto resp = CountryInfoDto.builder()
-//                    .wordId(engInfo.getWorldId())
-//                    .name(engInfo.getInfoName())
-//                    .capital(engInfo.getInfoCapital())
-//                    .money(engInfo.getInfoMoney())
-//                    .population(engInfo.getInfoPopul())
-//                    .size(engInfo.getInfoSize())
-//                    .build();
-//
-//            respList.add(resp);
-//        }
-//
-//        return respList;
-//    }
+    @Override
+    public List<CountryInfoDto> getKorCountryInfo() {
+        List<KorInfoEntity> countryList = korInfoRepository.findAll();
+
+        List<CountryInfoDto> respList = new ArrayList<>();
+        for(KorInfoEntity korInfo : countryList) {
+            CountryInfoDto resp = CountryInfoDto.builder()
+                    .wordId(korInfo.getWorldId())
+                    .name(korInfo.getInfoName())
+                    .capital(korInfo.getInfoCapital())
+                    .money(korInfo.getInfoMoney())
+                    .population(korInfo.getInfoPopul())
+                    .size(korInfo.getInfoSize())
+                    .build();
+
+            respList.add(resp);
+        }
+
+        return respList;
+    }
 
     @Override
-    public List<SafetyEntity> getSafety(Long worldId) {
+    public List<CountryInfoDto> getEngCountryInfo() {
+        List<EngInfoEntity> countryList = engInfoRepository.findAll();
+
+        List<CountryInfoDto> respList = new ArrayList<>();
+        for(EngInfoEntity engInfo : countryList) {
+            CountryInfoDto resp = CountryInfoDto.builder()
+                    .wordId(engInfo.getWorldId())
+                    .name(engInfo.getInfoName())
+                    .capital(engInfo.getInfoCapital())
+                    .money(engInfo.getInfoMoney())
+                    .population(engInfo.getInfoPopul())
+                    .size(engInfo.getInfoSize())
+                    .build();
+
+            respList.add(resp);
+        }
+
+        return respList;
+    }
+
+    // 훔
+    @Override
+    public SafetyDto getSafety(Long worldId) {
         SafetyEntity safety = safetyRepository.findById(worldId).orElseThrow((() -> {
             throw new NullPointerException(); // SafteyNotFoundException
         }));
@@ -135,23 +126,38 @@ public class MainServiceImpl implements MainService {
                 .safety(safetyArr)
                 .build();
 
-        return null;
+        return resp;
     }
 
     @Override
     public List<ArticleDto> getCountryArticles(Long wordId) {
-//        List<EventEntity> articleList = eventRepository.findAllById(wordId);
-        List<ArticleDto> respList = new ArrayList<>();
+        List<ArticleEntity> countryArticleList = articleRepository.findAllByWorldId(wordId);
 
-        return respList;
+        return getArticleDtoList(countryArticleList);
     }
 
+
+
     @Override
-    public List<ArticleDto> getCityArticles() {
-//        List<EventEntity> articleList = eventRepository.findAllById(wordId);
+    public List<ArticleDto> getCityArticles(float lat, float lon) {
+        List<ArticleEntity> cityAtricleList = articleRepository.findAllByLatitudeAndLongtitude(lat, lon);
+
+        return getArticleDtoList(cityAtricleList);
+    }
+
+    private List<ArticleDto> getArticleDtoList(List<ArticleEntity> articleList) {
         List<ArticleDto> respList = new ArrayList<>();
 
-        return respList;
+        for(ArticleEntity article : articleList) {
+            ArticleDto resp = ArticleDto.builder()
+                    .img(article.getImg())
+                    .url(article.getUrl())
+                    .headline(article.getHeadline())
+                    .category(article.getTheme())
+                    .build();
+            respList.add(resp);
+        }
 
+        return respList;
     }
 }

@@ -13,8 +13,14 @@ import org.hibernate.annotations.DynamicUpdate;
 public class EngInfoEntity {
 
 	@Id
-   	@Column(name = "world_id")
+	@JoinColumn(name = "world_id")
 	private Long worldId;
+
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = "world_id")
+	private WorldEntity worldEntity;
+
 
 	@Column(name = "info_name")
 	private String infoName;
@@ -30,5 +36,6 @@ public class EngInfoEntity {
 
    	@Column(name = "info_popul")
 	private Integer infoPopul;
+
 
 }

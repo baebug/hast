@@ -13,6 +13,6 @@ public class ArticleDto {
     private String headline;
     private String url;
     private String img;
-    private String category;
+    private int category;
 
 }
