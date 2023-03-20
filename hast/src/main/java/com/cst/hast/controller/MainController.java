@@ -36,10 +36,14 @@ public class MainController {
     }
 
     @GetMapping("/safety/{worldId}")
-    public Response<SafetyResponse> getSafety(@PathVariable Long worldId) {
+    public Response<?> getSafety(@PathVariable Long worldId) {
         log.info("get safety");
+        Safety safety = mainService.getSafety(worldId);
+        if(safety == null)
+            return Response.ofSuccess();
+
         return Response.of(SafetyResponse.fromSafety(
-                mainService.getSafety(worldId)
+                safety
         ), ResultEnum.SUCCESS);
     }
 

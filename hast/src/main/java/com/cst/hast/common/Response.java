@@ -22,8 +22,8 @@ public class Response<T> {
     }
 
 
-    public static Response<Boolean> ofSuccess() {
-        return new Response<>(Boolean.TRUE, ResultEnum.SUCCESS);
+    public static Response<Void> ofSuccess() {
+        return new Response<>(null, ResultEnum.SUCCESS);
     }
 
 
