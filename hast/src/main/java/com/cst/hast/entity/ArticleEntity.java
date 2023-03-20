@@ -19,13 +19,8 @@ public class ArticleEntity {
     @Column(name = "article_id")
     private Long articleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "export_id")
-    private ExportEntity exportEntity;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "world_id")
-    private WorldEntity worldEntity;
+    @Column(name="world_id")
+    private Long worldId;
 
     @Column(name = "url")
     private String url;
@@ -33,8 +28,8 @@ public class ArticleEntity {
     @Column(name = "latitude")
     private float latitude;
 
-    @Column(name = "longtitude")
-    private float longtitude;
+    @Column(name = "longitude")
+    private float longitude;
 
     @Column(name = "img")
     private String img;

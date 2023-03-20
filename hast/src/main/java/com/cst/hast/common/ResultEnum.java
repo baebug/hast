@@ -1,14 +1,13 @@
 package com.cst.hast.common;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum ResultEnum {
 
-    SUCCESS("200"),
-    FAIL("500");
+    SUCCESS("success"),
+    FAIL("fail"),;
 
     private final String resultCode;
-
-    private ResultEnum(String resultCode) {
-        this.resultCode = resultCode;
-    }
 
 }

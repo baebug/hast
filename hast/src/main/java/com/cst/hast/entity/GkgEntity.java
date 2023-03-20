@@ -18,25 +18,29 @@ public class GkgEntity {
    	@Column(name = "gkg_id")
 	private Long gkgId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "world_id")
-	private WorldEntity worldEntity;
+	@Column(name="world_id")
+	private Long worldId;
 
+	@Column(name = "gkg_time")
+	private LocalDateTime gkgTime;
 
-	@Column(name = "gkg_datetime")
-	private LocalDateTime gkgDatetime;
+   	@Column(name = "gkg_source")
+	private Integer gkgSource;
 
-   	@Column(name = "gkg_theme")
-	private Integer gkgTheme;
+	@Column(name = "gkg_domain")
+	private Integer gkgDomain;
+
+   	@Column(name = "gkg_themes")
+	private String gkgThemes;
+
+   	@Column(name = "gkg_en_themes")
+	private String gkgEnThemes;
 
    	@Column(name = "gkg_tone")
 	private String gkgTone;
 
-   	@Column(name = "gkg_url")
-	private String gkgUrl;
-
-   	@Column(name = "gkg_location")
-	private String gkgLocation;
+	@Column(name = "gkg_imgurl")
+	private Integer gkgImgurl;
 
 
 }

@@ -15,10 +15,8 @@ public class MentionEntity {
    	@Column(name = "mention_id")
 	private Long mentionId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "world_id")
-	private WorldEntity worldEntity;
-
+	@Column(name="world_id")
+	private Long worldId;
 
 	@Column(name = "event_datetime")
 	private LocalDateTime eventDatetime;

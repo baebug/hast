@@ -15,11 +15,6 @@ public class SafetyEntity {
 	@JoinColumn(name = "world_id")
 	private Long worldId;
 
-	@OneToOne
-	@MapsId
-	@JoinColumn(name = "world_id")
-	private WorldEntity worldEntity;
-
    	@Column(name = "safety1")
 	private Long safety1;
 
