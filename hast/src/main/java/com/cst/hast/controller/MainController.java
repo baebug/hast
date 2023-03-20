@@ -1,6 +1,11 @@
 package com.cst.hast.controller;
 
-import com.cst.hast.common.ResponseBody;
+
+import com.cst.hast.common.Response;
+import com.cst.hast.common.ResultEnum;
+import com.cst.hast.dto.Safety;
+import com.cst.hast.dto.response.*;
+import com.cst.hast.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,52 +14,48 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 public class MainController {
 
-    @GetMapping("/world")
-    public ResponseEntity<?> getWorld() {
-        log.info("국가 정보 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+    private final MainService mainService;
+
+    /**
+     *
+     * @produces (반환 타입)
+     */
+    @GetMapping(value = "/updates/articles")
+    public Response<List<UpdateArticleResponse>> getUpdateArticles() {
+        log.info("get updated articles");
+        return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
     }
 
-    @GetMapping("updates/articles")
-    public ResponseEntity<?> getUpdateArticles() {
-        log.info("최신 기사 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-    }
-
-    @GetMapping("/nation/eng/{wordId}")
-    public ResponseEntity<?> getNationEngInfo(@PathVariable String wordId) {
-        log.info("(ENG) 국가 기본 정보 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-    }
-
-    @GetMapping("/nation/kor/{wordId}")
-    public ResponseEntity<?> getNationKorInfo(@PathVariable String wordId) {
-        log.info("(KOR) 국가 기본 정보 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
-    }
-
-    @GetMapping("/safety")
-    public ResponseEntity<?> getSafety(@PathVariable String worldId) {
-        log.info("치안 점수 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+    @GetMapping("/safety/{worldId}")
+    public Response<SafetyResponse> getSafety(@PathVariable Long worldId) {
+        log.info("get safety");
+        return Response.of(SafetyResponse.fromSafety(
+                mainService.getSafety(worldId)
+        ), ResultEnum.SUCCESS);
     }
 
     @GetMapping("/articles/{worldId}")
-    public ResponseEntity<?> getNationArticles(@PathVariable String wolrdId) {
-        log.info("기사 조회 (각 기사의 ton 정보 포함)");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+    public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable Long worldId) {
+        log.info("get country articles");
+        return Response.of(mainService.getCountryArticles(worldId).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
     }
 
-    @GetMapping("articles/{lat}/{lon}")
-    public ResponseEntity<?> getCityArticles(@PathVariable String lan, @PathVariable String lon) {
-        log.info("지역 뉴스 조회");
-        return ResponseEntity.status(200).body(ResponseBody.create(200, "success"));
+    @GetMapping("/articles/{lat}/{lon}")
+    public Response<List<CityArticleResponse>> getCityArticles(@PathVariable float lat, @PathVariable float lon) {
+        log.info("get city articles");
+        return Response.of(mainService.getCityArticles(lat, lon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
     }
 
 }
+
+// 1. 치안 점수 조회 (시각화)
+// 2. 동그라미 그리는 점수 조회

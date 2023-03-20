@@ -2,20 +2,17 @@ package com.cst.hast.entity;
 
 import javax.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
-@DynamicInsert // Apply changed fields only
-@DynamicUpdate // Apply changed fields only
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table (name = "safety")
 public class SafetyEntity {
 
 	@Id
-   	@Column(name = "world_id")
+	@JoinColumn(name = "world_id")
 	private Long worldId;
 
    	@Column(name = "safety1")
