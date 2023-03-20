@@ -1,9 +1,7 @@
 package com.cst.hast.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -42,5 +40,6 @@ public class ArticleEntity {
 
     @Column(name = "cameo")
     private int cameo;
+
 
 }
