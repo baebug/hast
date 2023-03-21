@@ -1,22 +1,16 @@
 package com.cst.hast.exception;
 
+import com.cst.hast.common.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
-@AllArgsConstructor
 public class HastApplicationException extends RuntimeException{
-
-    private ErrorCode errorCode;
-    private String message = null;
 
     @Override
     public String getMessage() {
-        if(message == null) {
-            return errorCode.getMessage();
-        } else {
-            return String.format("%s. %s", errorCode.getMessage(), message);
-        }
+       return String.format("%s", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

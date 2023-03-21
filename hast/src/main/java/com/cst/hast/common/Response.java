@@ -28,7 +28,7 @@ public class Response<T> {
 
 
     public static Response<Void> ofError(ResultEnum resultCode) {
-        return new Response<Void>(null, resultCode);
+        return new Response<Void>(null, ResultEnum.FAIL);
     }
 
 }

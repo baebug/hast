@@ -11,14 +11,18 @@ import lombok.ToString;
 public class CountryArticleResponse {
 
     private String headline;
-    private String url;
-    private String img;
+    private String articleUrl;
+    private String imgUrl;
+    private Integer category;
+    private String timeStamp;
 
     public static CountryArticleResponse fromArticle(Article article) {
         return new CountryArticleResponse(
                 article.getHeadline(),
-                article.getUrl(),
-                article.getImg()
+                article.getArticleUrl(),
+                article.getImgUrl(),
+                article.getCategory(),
+                article.getTimeStamp()
         );
     }
 
