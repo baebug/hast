@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
-    List<ArticleEntity> findAllByWorldId(Long wordId);
+    List<ArticleEntity> findAllByExportCountry(String code);
 
-    List<ArticleEntity> findAllByLatitudeAndLongitude(float lat, float lon);
+    List<ArticleEntity> findAllByExportLatAndExportLong(double lat, double lon);
 }

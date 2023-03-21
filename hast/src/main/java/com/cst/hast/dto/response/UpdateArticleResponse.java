@@ -12,11 +12,13 @@ public class UpdateArticleResponse {
 
     private String headline;
     private String url;
+    private String timeStamp;
 
     public static UpdateArticleResponse fromArticle(Article article) {
         return new UpdateArticleResponse(
                 article.getHeadline(),
-                article.getUrl()
+                article.getArticleUrl(),
+                article.getTimeStamp()
         );
     }
 

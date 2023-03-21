@@ -3,12 +3,14 @@ package com.cst.hast.controller;
 
 import com.cst.hast.common.Response;
 import com.cst.hast.common.ResultEnum;
-import com.cst.hast.dto.Safety;
 import com.cst.hast.dto.response.*;
+import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.service.MainService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,38 +27,55 @@ public class MainController {
 
     private final MainService mainService;
 
-    /**
-     *
-     * @produces (반환 타입)
-     */
+    @ApiOperation(value="최신 기사 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     @GetMapping(value = "/updates/articles")
     public Response<List<UpdateArticleResponse>> getUpdateArticles() {
         log.info("get updated articles");
-        return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
+        return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()));
     }
 
-    @GetMapping("/safety/{worldId}")
-    public Response<?> getSafety(@PathVariable Long worldId) {
-        log.info("get safety");
-        Safety safety = mainService.getSafety(worldId);
-        if(safety == null)
-            return Response.ofSuccess();
-
-        return Response.of(SafetyResponse.fromSafety(
-                safety
-        ), ResultEnum.SUCCESS);
+    @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/measures/{code}")
+    public Response<List<MeasureResponse>> getMeasures(@PathVariable String code) {
+        log.info("get measures");
+        return Response.of(mainService.getMeasures(code).stream().map(MeasureResponse::fromMeasure).collect(Collectors.toList()));
     }
 
-    @GetMapping("/articles/{worldId}")
-    public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable Long worldId) {
+    @ApiOperation(value="국가 기사 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/articles/{code}")
+    public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable String code) {
         log.info("get country articles");
-        return Response.of(mainService.getCountryArticles(worldId).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
+        return Response.of(mainService.getCountryArticles(code).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()));
     }
 
+    @ApiOperation(value="지역 기사 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
     @GetMapping("/articles/{lat}/{lon}")
-    public Response<List<CityArticleResponse>> getCityArticles(@PathVariable float lat, @PathVariable float lon) {
-        log.info("get city articles");
-        return Response.of(mainService.getCityArticles(lat, lon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()), ResultEnum.SUCCESS);
+    public Response<List<CityArticleResponse>> getCityArticles(@PathVariable String lat, @PathVariable String lon) {
+        try {
+            Double doubleLat = Double.parseDouble(lat);
+            Double doubleLon = Double.parseDouble(lon);
+
+            log.info("get city articles");
+            return Response.of(mainService.getCityArticles(doubleLat, doubleLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
+        } catch (NumberFormatException e) { // 잘못된 형식의 데이터
+            throw new HastApplicationException();
+        }
     }
 
 }
