@@ -32,21 +32,10 @@ public class MainController {
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    @GetMapping(value = "/updates/articles")
+    @GetMapping(value = "/articles/updates")
     public Response<List<UpdateArticleResponse>> getUpdateArticles() {
         log.info("get updated articles");
         return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()));
-    }
-
-    @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "API 정상 작동"),
-            @ApiResponse(code = 500, message = "서버 에러")
-    })
-    @GetMapping("/measures/{code}")
-    public Response<List<MeasureResponse>> getMeasures(@PathVariable String code) {
-        log.info("get measures");
-        return Response.of(mainService.getMeasures(code).stream().map(MeasureResponse::fromMeasure).collect(Collectors.toList()));
     }
 
     @ApiOperation(value="국가 기사 목록 조회", notes="정상 동작 시 'result' return")
@@ -54,6 +43,7 @@ public class MainController {
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
+
     @GetMapping("/articles/{code}")
     public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable String code) {
         log.info("get country articles");
@@ -67,17 +57,28 @@ public class MainController {
     })
     @GetMapping("/articles/{lat}/{lon}")
     public Response<List<CityArticleResponse>> getCityArticles(@PathVariable String lat, @PathVariable String lon) {
+        log.info("get city articles");
+
         try {
             Double doubleLat = Double.parseDouble(lat);
             Double doubleLon = Double.parseDouble(lon);
 
-            log.info("get city articles");
             return Response.of(mainService.getCityArticles(doubleLat, doubleLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
         } catch (NumberFormatException e) { // 잘못된 형식의 데이터
             throw new HastApplicationException();
         }
     }
 
+    @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/measures/{code}")
+    public Response<List<MeasureResponse>> getScore(@PathVariable String code) {
+        log.info("get measures");
+        return Response.of(mainService.getScore(code).stream().map(MeasureResponse::fromMeasure).collect(Collectors.toList()));
+    }
 }
 
 // 1. 치안 점수 조회 (시각화)

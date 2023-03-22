@@ -10,14 +10,14 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UpdateArticleResponse {
 
-    private String headline;
+    private String title;
     private String url;
     private String timeStamp;
 
     public static UpdateArticleResponse fromArticle(Article article) {
         return new UpdateArticleResponse(
-                article.getHeadline(),
-                article.getArticleUrl(),
+                article.getTitle(),
+                article.getUrl(),
                 article.getTimeStamp()
         );
     }

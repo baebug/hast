@@ -11,10 +11,11 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class Article {
 
-    private String headline;
-    private String articleUrl;
+    private String title;
+    private String url;
     private String imgUrl;
     private Integer category;
+    private double score;
     private String timeStamp;
 
 
@@ -22,11 +23,12 @@ public class Article {
 
 
         return new Article (
-                entity.getArticleHeadline(),
-                entity.getExportUrl(),
-                entity.getGkgImgUrl(),
+                entity.getArticleTitle(),
+                entity.getArticleUrl(),
+                entity.getArticleImage(),
                 entity.getArticleCategory(),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getMentionTime())
+                entity.getArticleScore(),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getArticleDate())
         );
     }
 

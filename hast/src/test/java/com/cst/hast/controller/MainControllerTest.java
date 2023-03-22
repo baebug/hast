@@ -32,8 +32,8 @@ class MainControllerTest {
     @Test
     void 최신_기사_목록() throws Exception {
         List<Article> articles = new ArrayList<>();
-        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, "1998-06-13 13:22:55"));
-        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, 1.9, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, 2.0,"1998-06-13 13:22:55"));
 
         when(mainService.getUpdateArticles()).thenReturn(articles);
 
@@ -52,7 +52,7 @@ class MainControllerTest {
             measures.add(measure);
         }
 
-        when(mainService.getMeasures(any())).thenReturn(measures);
+        when(mainService.getScore(any())).thenReturn(measures);
 
         mockMvc.perform(get("/api/measures/KO")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -63,8 +63,8 @@ class MainControllerTest {
     @Test
     void 국가_기사_목록() throws Exception {
         List<Article> articles = new ArrayList<>();
-        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, "1998-06-13 13:22:55"));
-        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, 1.9, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, 2.0, "1998-06-13 13:22:55"));
 
         when(mainService.getCountryArticles(any())).thenReturn(articles);
 
@@ -77,8 +77,8 @@ class MainControllerTest {
     @Test
     void 지역_기사_목록() throws Exception {
         List<Article> articles = new ArrayList<>();
-        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, "1998-06-13 13:22:55"));
-        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 1", "Url 1", "Img 1", 1, 1.9, "1998-06-13 13:22:55"));
+        articles.add(new Article("Headline 2", "Url 2", "Img 2", 2, 2.0, "1998-06-13 13:22:55"));
 
         when(mainService.getCityArticles(anyFloat(), anyFloat())).thenReturn(articles);
 

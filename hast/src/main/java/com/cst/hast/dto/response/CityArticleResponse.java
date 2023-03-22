@@ -14,17 +14,19 @@ import java.text.SimpleDateFormat;
 public class CityArticleResponse {
 
     private String headline;
-    private String articleUrl;
+    private String url;
     private String imgUrl;
     private Integer category;
+    private double score;
     private String timeStamp;
 
     public static CityArticleResponse fromArticle(Article article) {
         return new CityArticleResponse(
-                article.getHeadline(),
-                article.getArticleUrl(),
+                article.getTitle(),
+                article.getUrl(),
                 article.getImgUrl(),
                 article.getCategory(),
+                article.getScore(),
                 article.getTimeStamp()
         );
     }
