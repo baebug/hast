@@ -1,18 +1,17 @@
 package com.cst.hast.dto;
 
-import com.cst.hast.entity.EventEntity;
-import com.cst.hast.entity.StatisticsEntity;
+import com.cst.hast.entity.StaticsEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Measure {
+public class Statics {
 
     private Integer safety;
 
-    public static Measure fromEntity(StatisticsEntity entity) {
-        return new Measure (
+    public static Statics fromEntity(StaticsEntity entity) {
+        return new Statics(
                 entity.getStatisticsSafety()
         );
     }

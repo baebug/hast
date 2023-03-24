@@ -2,7 +2,6 @@ package com.cst.hast.controller;
 
 
 import com.cst.hast.common.Response;
-import com.cst.hast.common.ResultEnum;
 import com.cst.hast.dto.response.*;
 import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.service.MainService;
@@ -32,10 +31,22 @@ public class MainController {
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    @GetMapping(value = "/updates/articles")
+    @GetMapping(value = "/articles/updates")
     public Response<List<UpdateArticleResponse>> getUpdateArticles() {
         log.info("get updated articles");
         return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()));
+    }
+
+    @ApiOperation(value="국가 기사 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+
+    @GetMapping("/articles/{code}")
+    public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable String code) {
+        log.info("get country articles");
+        return Response.of(mainService.getCountryArticles(code).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()));
     }
 
     @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
@@ -44,21 +55,11 @@ public class MainController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     @GetMapping("/measures/{code}")
-    public Response<List<MeasureResponse>> getMeasures(@PathVariable String code) {
+    public Response<List<StaticsResponse>> getScore(@PathVariable String code) {
         log.info("get measures");
-        return Response.of(mainService.getMeasures(code).stream().map(MeasureResponse::fromMeasure).collect(Collectors.toList()));
+        return Response.of(mainService.getStatics(code).stream().map(StaticsResponse::fromMeasure).collect(Collectors.toList()));
     }
 
-    @ApiOperation(value="국가 기사 목록 조회", notes="정상 동작 시 'result' return")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "API 정상 작동"),
-            @ApiResponse(code = 500, message = "서버 에러")
-    })
-    @GetMapping("/articles/{code}")
-    public Response<List<CountryArticleResponse>> getCountryArticles(@PathVariable String code) {
-        log.info("get country articles");
-        return Response.of(mainService.getCountryArticles(code).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()));
-    }
 
     @ApiOperation(value="지역 기사 목록 조회", notes="정상 동작 시 'result' return")
     @ApiResponses({
@@ -67,17 +68,17 @@ public class MainController {
     })
     @GetMapping("/articles/{lat}/{lon}")
     public Response<List<CityArticleResponse>> getCityArticles(@PathVariable String lat, @PathVariable String lon) {
-        try {
-            Double doubleLat = Double.parseDouble(lat);
-            Double doubleLon = Double.parseDouble(lon);
+        log.info("get city articles");
 
-            log.info("get city articles");
-            return Response.of(mainService.getCityArticles(doubleLat, doubleLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
+        try {
+            Float floatLat = Float.parseFloat(lat);
+            Float floatLon = Float.parseFloat(lon);
+
+            return Response.of(mainService.getCityArticles(floatLat, floatLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
         } catch (NumberFormatException e) { // 잘못된 형식의 데이터
             throw new HastApplicationException();
         }
     }
-
 }
 
 // 1. 치안 점수 조회 (시각화)

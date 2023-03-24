@@ -1,12 +1,16 @@
 package com.cst.hast.service;
 
 import com.cst.hast.dto.Article;
-import com.cst.hast.dto.Measure;
+import com.cst.hast.dto.Statics;
+import com.cst.hast.entity.ArticleEntity;
+import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,18 +24,25 @@ public class MainService {
 
 
     public List<Article> getUpdateArticles() {
-        return articleRepository.findAll().stream().map(Article::fromEntity).collect(Collectors.toList());
+        LocalDateTime current = LocalDateTime.now();
+        LocalDateTime past = current.minusMinutes(15);
+
+        return articleRepository.findAllByArticleDateTimeBetween(Timestamp.valueOf(past), Timestamp.valueOf(current)).
+                stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     public List<Article> getCountryArticles(String code) {
-        return articleRepository.findAllByExportCountry(code).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return articleRepository.findAllByArticleCountryCodeOrderByArticleDateTime(code).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
-    public List<Article> getCityArticles(double lat, double lon) {
-        return articleRepository.findAllByExportLatAndExportLong(lat, lon).stream().map(Article::fromEntity).collect(Collectors.toList());
+    public List<Article> getCityArticles(float lat, float lon) {
+        return articleRepository.findAllByArticleLatAndArticleLongOrderByArticleDateTime(lat, lon).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
-    public List<Measure> getMeasures(String code) {
-        return statisticsRepository.findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc(code).stream().map(Measure::fromEntity).collect(Collectors.toList());
+    public List<Statics> getStatics(String code) {
+        ArticleEntity article = articleRepository.findByArticleCountryCode(code).orElseThrow(
+                () -> { throw new HastApplicationException();
+        });
+        return statisticsRepository.findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc(article.getArticleBaseCode()).stream().map(Statics::fromEntity).collect(Collectors.toList());
     }
 }
