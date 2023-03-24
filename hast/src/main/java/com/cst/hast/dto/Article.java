@@ -1,6 +1,7 @@
 package com.cst.hast.dto;
 
 import com.cst.hast.entity.ArticleEntity;
+import com.cst.hast.entity.CameoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,34 +12,29 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class Article {
 
-    private String title;
+    private String korKeyword;
+    private String engKeyword;
     private String url;
     private String imgUrl;
     private Integer category;
-    private double score;
+    private Long score;
     private String timeStamp;
+    private float latitude;
+    private float longitude;
 
 
     public static Article fromEntity(ArticleEntity entity) {
-
-
         return new Article (
-                entity.getArticleTitle(),
+                entity.getArticleKo(),
+                entity.getArticleKo(),
                 entity.getArticleUrl(),
                 entity.getArticleImage(),
                 entity.getArticleCategory(),
                 entity.getArticleScore(),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getArticleDate())
+                entity.getArticleDateTime().toString(),
+                entity.getArticleLat(),
+                entity.getArticleLong()
         );
     }
 
 }
-
-// headline
-// articleUrl
-// imgUrl
-// category
-// date
-
-// YYYY.MM.DD
-// hh:mm

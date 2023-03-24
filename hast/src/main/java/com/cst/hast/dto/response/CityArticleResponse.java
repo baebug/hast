@@ -13,21 +13,27 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class CityArticleResponse {
 
-    private String headline;
+    private String korKeyword;
+    private String engKeyword;
     private String url;
     private String imgUrl;
     private Integer category;
-    private double score;
+    private Long score;
     private String timeStamp;
+    private float latitude;
+    private float longitude;
 
     public static CityArticleResponse fromArticle(Article article) {
         return new CityArticleResponse(
-                article.getTitle(),
+                article.getKorKeyword(),
+                article.getEngKeyword(),
                 article.getUrl(),
                 article.getImgUrl(),
                 article.getCategory(),
                 article.getScore(),
-                article.getTimeStamp()
+                article.getTimeStamp(),
+                article.getLatitude(),
+                article.getLongitude()
         );
     }
 

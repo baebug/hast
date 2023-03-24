@@ -2,15 +2,13 @@ package com.cst.hast.entity;
 
 import javax.persistence.*;
 import lombok.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table (name = "statistics")
-public class StatisticsEntity {
+@Table (name = "statics_table")
+public class StaticsEntity {
 
 	@Id
    	@Column(name = "statics_id")

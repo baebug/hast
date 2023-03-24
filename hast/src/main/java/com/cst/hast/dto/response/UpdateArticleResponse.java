@@ -10,13 +10,15 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UpdateArticleResponse {
 
-    private String title;
+    private String korKeyword;
+    private String engKeyword;
     private String url;
     private String timeStamp;
 
     public static UpdateArticleResponse fromArticle(Article article) {
         return new UpdateArticleResponse(
-                article.getTitle(),
+                article.getKorKeyword(),
+                article.getEngKeyword(),
                 article.getUrl(),
                 article.getTimeStamp()
         );

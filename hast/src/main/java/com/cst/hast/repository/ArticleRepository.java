@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
@@ -19,4 +20,5 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
     List<ArticleEntity> findAllByArticleLatAndArticleLongOrderByArticleDate(double lat, double lon);
 
+    Optional<ArticleEntity> findByArticleCountryCode(String code);
 }

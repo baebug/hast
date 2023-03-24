@@ -31,13 +31,13 @@ public class MainServiceTest {
 
     @Test
     void 국가_기사_목록_요청_성공() {
-        when(articleRepository.findAllByArticleCountryCode("KO")).thenReturn(Collections.emptyList());
+        when(articleRepository.findAllByArticleCountryCodeOrderByArticleDate("KO")).thenReturn(Collections.emptyList());
         Assertions.assertDoesNotThrow(() -> mainService.getCountryArticles("KO"));
     }
 
     @Test
     void 지역_기사_목록_요청_성공() {
-        when(articleRepository.findAllByArticleLatAndArticleLong(-20.0F, 20.3F)).thenReturn(Collections.emptyList());
+        when(articleRepository.findAllByArticleLatAndArticleLongOrderByArticleDate(-20.0F, 20.3F)).thenReturn(Collections.emptyList());
         Assertions.assertDoesNotThrow(() -> mainService.getCityArticles(-20.0F, 20.3F));
     }
 

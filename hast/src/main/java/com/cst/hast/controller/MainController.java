@@ -2,7 +2,6 @@ package com.cst.hast.controller;
 
 
 import com.cst.hast.common.Response;
-import com.cst.hast.common.ResultEnum;
 import com.cst.hast.dto.response.*;
 import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.service.MainService;
@@ -50,6 +49,18 @@ public class MainController {
         return Response.of(mainService.getCountryArticles(code).stream().map(CountryArticleResponse::fromArticle).collect(Collectors.toList()));
     }
 
+    @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/measures/{code}")
+    public Response<List<StaticsResponse>> getScore(@PathVariable String code) {
+        log.info("get measures");
+        return Response.of(mainService.getStatics(code).stream().map(StaticsResponse::fromMeasure).collect(Collectors.toList()));
+    }
+
+
     @ApiOperation(value="지역 기사 목록 조회", notes="정상 동작 시 'result' return")
     @ApiResponses({
             @ApiResponse(code = 200, message = "API 정상 작동"),
@@ -67,17 +78,6 @@ public class MainController {
         } catch (NumberFormatException e) { // 잘못된 형식의 데이터
             throw new HastApplicationException();
         }
-    }
-
-    @ApiOperation(value="월별 수치 목록 조회", notes="정상 동작 시 'result' return")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "API 정상 작동"),
-            @ApiResponse(code = 500, message = "서버 에러")
-    })
-    @GetMapping("/measures/{code}")
-    public Response<List<MeasureResponse>> getScore(@PathVariable String code) {
-        log.info("get measures");
-        return Response.of(mainService.getScore(code).stream().map(MeasureResponse::fromMeasure).collect(Collectors.toList()));
     }
 }
 
