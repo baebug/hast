@@ -27,16 +27,16 @@ public class MainService {
         LocalDateTime current = LocalDateTime.now();
         LocalDateTime past = current.minusMinutes(15);
 
-        return articleRepository.findAllByArticleDateBetween(Timestamp.valueOf(past), Timestamp.valueOf(current)).
+        return articleRepository.findAllByArticleDateTimeBetween(Timestamp.valueOf(past), Timestamp.valueOf(current)).
                 stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     public List<Article> getCountryArticles(String code) {
-        return articleRepository.findAllByArticleCountryCodeOrderByArticleDate(code).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return articleRepository.findAllByArticleCountryCodeOrderByArticleDateTime(code).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
-    public List<Article> getCityArticles(double lat, double lon) {
-        return articleRepository.findAllByArticleLatAndArticleLongOrderByArticleDate(lat, lon).stream().map(Article::fromEntity).collect(Collectors.toList());
+    public List<Article> getCityArticles(float lat, float lon) {
+        return articleRepository.findAllByArticleLatAndArticleLongOrderByArticleDateTime(lat, lon).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     public List<Statics> getStatics(String code) {

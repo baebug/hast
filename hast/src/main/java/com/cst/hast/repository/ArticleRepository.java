@@ -14,11 +14,11 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
 //    @Query("SELECT a FROM ArticleEntity a WHERE a.articleDate between :past and :current")
-    List<ArticleEntity> findAllByArticleDateBetween(Timestamp past, Timestamp current);
+    List<ArticleEntity> findAllByArticleDateTimeBetween(Timestamp past, Timestamp current);
 
-    List<ArticleEntity> findAllByArticleCountryCodeOrderByArticleDate(String code);
+    List<ArticleEntity> findAllByArticleCountryCodeOrderByArticleDateTime(String code);
 
-    List<ArticleEntity> findAllByArticleLatAndArticleLongOrderByArticleDate(double lat, double lon);
+    List<ArticleEntity> findAllByArticleLatAndArticleLongOrderByArticleDateTime(float lat, float lon);
 
     Optional<ArticleEntity> findByArticleCountryCode(String code);
 }

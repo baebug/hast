@@ -71,10 +71,10 @@ public class MainController {
         log.info("get city articles");
 
         try {
-            Double doubleLat = Double.parseDouble(lat);
-            Double doubleLon = Double.parseDouble(lon);
+            Float floatLat = Float.parseFloat(lat);
+            Float floatLon = Float.parseFloat(lon);
 
-            return Response.of(mainService.getCityArticles(doubleLat, doubleLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
+            return Response.of(mainService.getCityArticles(floatLat, floatLon).stream().map(CityArticleResponse::fromArticle).collect(Collectors.toList()));
         } catch (NumberFormatException e) { // 잘못된 형식의 데이터
             throw new HastApplicationException();
         }

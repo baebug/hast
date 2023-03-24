@@ -71,11 +71,9 @@ public class ArticleEntity {
     @Column(name="article_theme_total")
     private Long articleThemeTotal;
 
-    @Column(name="article_score")
-    private Long articleScore;
 
     @Column(name="article_score")
-    private String article_score;
+    private Long articleScore;
 
     @Column(name="article_category")
     private Integer articleCategory;
