@@ -14,15 +14,11 @@ import java.util.Date;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "article_table")
+@Table(name = "article_test_table")
 public class ArticleEntity {
     @Id
     @Column(name = "article_event_id")
     private Long articleEventId;
-
-    // 나중에 삭제
-    @Column(name = "article_title")
-    private String title;
 
     @Column(name="article_root_code")
     private String articleRootCode;
@@ -79,8 +75,8 @@ public class ArticleEntity {
     @Column(name="article_score")
     private Long articleScore;
 
-//    @Column(name="article_category")
-//    private Integer articleCategory;
+    @Column(name="article_category")
+    private Integer articleCategory;
 
 }
 

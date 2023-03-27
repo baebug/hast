@@ -17,8 +17,7 @@ public class CityArticleResponse {
     private String engKeyword;
     private String url;
     private String imgUrl;
-//    private Integer category;
-    private String category;
+    private Integer category;
     private Long score;
     private String timeStamp;
     private float latitude;
