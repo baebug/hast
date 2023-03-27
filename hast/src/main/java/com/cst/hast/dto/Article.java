@@ -16,7 +16,9 @@ public class Article {
     private String engKeyword;
     private String url;
     private String imgUrl;
-    private Integer category;
+
+    // private Integer category;
+    private String category;
     private Long score;
     private String timeStamp;
     private float latitude;
@@ -29,7 +31,7 @@ public class Article {
                 entity.getArticleKo(),
                 entity.getArticleUrl(),
                 entity.getArticleImage(),
-                entity.getArticleCategory(),
+                entity.getTitle(), // category로 변경
                 entity.getArticleScore(),
                 entity.getArticleDateTime().toString(),
                 entity.getArticleLat(),
