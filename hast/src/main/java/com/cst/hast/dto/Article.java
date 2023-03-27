@@ -17,8 +17,7 @@ public class Article {
     private String url;
     private String imgUrl;
 
-    // private Integer category;
-    private String category;
+    private Integer category;
     private Long score;
     private String timeStamp;
     private float latitude;
@@ -28,10 +27,10 @@ public class Article {
     public static Article fromEntity(ArticleEntity entity) {
         return new Article (
                 entity.getArticleKo(),
-                entity.getArticleKo(),
+                entity.getArticleEn(),
                 entity.getArticleUrl(),
                 entity.getArticleImage(),
-                entity.getTitle(), // category로 변경
+                entity.getArticleCategory(),
                 entity.getArticleScore(),
                 entity.getArticleDateTime().toString(),
                 entity.getArticleLat(),
