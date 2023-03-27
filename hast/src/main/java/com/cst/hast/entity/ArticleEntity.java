@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "article_test_table")
+@Table(name = "article_table")
 public class ArticleEntity {
     @Id
     @Column(name = "article_event_id")
