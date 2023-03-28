@@ -16,8 +16,11 @@ public class CountryArticleResponse {
     private String imgUrl;
     private Integer category;
     private Long score;
-
     private String timeStamp;
+    private float latitude;
+    private float longitude;
+
+
 
     public static CountryArticleResponse fromArticle(Article article) {
         return new CountryArticleResponse(
@@ -27,7 +30,9 @@ public class CountryArticleResponse {
                 article.getImgUrl(),
                 article.getCategory(),
                 article.getScore(),
-                article.getTimeStamp()
+                article.getTimeStamp(),
+                article.getLatitude(),
+                article.getLongitude()
         );
     }
 
