@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class Article {
 
+    private Long id;
     private String korKeyword;
     private String engKeyword;
     private String url;
@@ -26,6 +27,7 @@ public class Article {
 
     public static Article fromEntity(ArticleEntity entity) {
         return new Article (
+                entity.getArticleEventId(),
                 entity.getArticleKo(),
                 entity.getArticleEn(),
                 entity.getArticleUrl(),

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 public class CityArticleResponse {
 
+    private Long id;
     private String korKeyword;
     private String engKeyword;
     private String url;
@@ -25,6 +26,7 @@ public class CityArticleResponse {
 
     public static CityArticleResponse fromArticle(Article article) {
         return new CityArticleResponse(
+                article.getId(),
                 article.getKorKeyword(),
                 article.getEngKeyword(),
                 article.getUrl(),
