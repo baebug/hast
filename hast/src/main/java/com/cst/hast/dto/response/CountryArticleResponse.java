@@ -10,24 +10,32 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CountryArticleResponse {
 
+
+    private Long id;
     private String korKeyword;
     private String engKeyword;
     private String url;
     private String imgUrl;
     private Integer category;
     private Long score;
-
     private String timeStamp;
+    private float latitude;
+    private float longitude;
+
+
 
     public static CountryArticleResponse fromArticle(Article article) {
         return new CountryArticleResponse(
+                article.getId(),
                 article.getKorKeyword(),
                 article.getEngKeyword(),
                 article.getUrl(),
                 article.getImgUrl(),
                 article.getCategory(),
                 article.getScore(),
-                article.getTimeStamp()
+                article.getTimeStamp(),
+                article.getLatitude(),
+                article.getLongitude()
         );
     }
 
