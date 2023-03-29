@@ -17,7 +17,7 @@ public class CountryArticleResponse {
     private String url;
     private String imgUrl;
     private Integer category;
-    private Long score;
+    private double score;
     private String timeStamp;
     private float latitude;
     private float longitude;

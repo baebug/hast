@@ -13,13 +13,14 @@ import java.text.SimpleDateFormat;
 public class Article {
 
     private Long id;
+    private String CountryCode;
     private String korKeyword;
     private String engKeyword;
     private String url;
     private String imgUrl;
 
     private Integer category;
-    private Long score;
+    private double score;
     private String timeStamp;
     private float latitude;
     private float longitude;
@@ -28,6 +29,7 @@ public class Article {
     public static Article fromEntity(ArticleEntity entity) {
         return new Article (
                 entity.getArticleEventId(),
+                entity.getArticleCountryCode(),
                 entity.getArticleKo(),
                 entity.getArticleEn(),
                 entity.getArticleUrl(),
