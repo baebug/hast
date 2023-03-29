@@ -73,10 +73,31 @@ public class ArticleEntity {
 
 
     @Column(name="article_score")
-    private Long articleScore;
+    private double articleScore;
 
     @Column(name="article_category")
     private Integer articleCategory;
+
+    @Column(name="article_row_count")
+    private Integer articleRowCount;
+
+    @Transient
+    private Long count;
+
+    @Transient
+    private double score;
+
+    @Transient
+    private Long rowCount;
+
+
+    public ArticleEntity(Float articleLat, Float articleLong, Long count, double score, Long rowCount) {
+        this.articleLat = articleLat;
+        this.articleLong = articleLong;
+        this.count = count;
+        this.score = score;
+        this.rowCount = rowCount;
+    }
 
 }
 

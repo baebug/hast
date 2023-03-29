@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UpdateArticleResponse {
 
+    private String countryCode;
     private String korKeyword;
     private String engKeyword;
     private String url;
@@ -17,6 +18,7 @@ public class UpdateArticleResponse {
 
     public static UpdateArticleResponse fromArticle(Article article) {
         return new UpdateArticleResponse(
+                article.getCountryCode(),
                 article.getKorKeyword(),
                 article.getEngKeyword(),
                 article.getUrl(),
