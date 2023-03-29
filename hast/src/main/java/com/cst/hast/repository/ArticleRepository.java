@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     // 최신 기사
-    List<ArticleEntity> findTop10ByArticleDateTimeBetweenOrderByArticleScore(Timestamp past, Timestamp current);
+    List<ArticleEntity> findTop10ByArticleDateTimeBetweenOrderByArticleScoreDesc(Timestamp past, Timestamp current);
 
     // 위도, 경도, 같은 개수, 치안 수치
     @Query("SELECT new ArticleEntity(a.articleLat, a.articleLong, COUNT(*), SUM(a.articleScore), SUM(a.articleRowCount))" +
@@ -32,8 +32,10 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     @Query("SELECT a " +
             "FROM ArticleEntity a " +
             "WHERE a.articleLat BETWEEN :minLat AND :maxLat " +
-            "AND a.articleLong BETWEEN :minLong AND :maxLong")
-    List<ArticleEntity> findByLocation(@Param("minLat") float minLat, @Param("maxLat") float maxLat, @Param("minLong") float minLong, @Param("maxLong") float maxLong, Pageable pageable);
+            "AND a.articleLong BETWEEN :minLong AND :maxLong " +
+            "ORDER BY SQRT(POWER(:centerLat - a.articleLat, 2) + POWER(:centerLong - a.articleLong, 2)), a.articleScore DESC")
+    List<ArticleEntity> findByLocation(@Param("minLat") float minLat, @Param("maxLat") float maxLat, @Param("minLong") float minLong, @Param("maxLong") float maxLong,
+                                       @Param("centerLat") float centerLat, @Param("centerLong") float centerLong, Pageable pageable);
 
     // 치안 수치 얻을 때 article table 찾기 위함
     Optional<ArticleEntity> findByArticleCountryCode(String code);
