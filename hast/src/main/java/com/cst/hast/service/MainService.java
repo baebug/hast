@@ -29,11 +29,17 @@ public class MainService {
 
 
     // 최신 기사
-    public List<Article> getUpdateArticles() {
-        LocalDateTime current = LocalDateTime.now();
-        LocalDateTime past = current.minusMinutes(15);
+//    public List<Article> getUpdateArticles() {
+//        LocalDateTime current = LocalDateTime.now();
+//        LocalDateTime past = current.minusMinutes(15);
+//
+//        return articleRepository.findTop10ByArticleDateTimeBetweenOrderByArticleScoreDesc(Timestamp.valueOf(past), Timestamp.valueOf(current)).
+//                stream().map(Article::fromEntity).collect(Collectors.toList());
+//    }
 
-        return articleRepository.findTop10ByArticleDateTimeBetweenOrderByArticleScoreDesc(Timestamp.valueOf(past), Timestamp.valueOf(current)).
+        public List<Article> getUpdateArticles() {
+
+        return articleRepository.findTop10ByOrderByArticleDateTimeDesc().
                 stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
