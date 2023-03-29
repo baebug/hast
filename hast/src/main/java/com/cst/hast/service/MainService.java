@@ -33,7 +33,7 @@ public class MainService {
         LocalDateTime current = LocalDateTime.now();
         LocalDateTime past = current.minusMinutes(15);
 
-        return articleRepository.findTop10ByArticleDateTimeBetweenOrderByArticleScore(Timestamp.valueOf(past), Timestamp.valueOf(current)).
+        return articleRepository.findTop10ByArticleDateTimeBetweenOrderByArticleScoreDesc(Timestamp.valueOf(past), Timestamp.valueOf(current)).
                 stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
@@ -44,7 +44,8 @@ public class MainService {
 
     // 받은 위도, 겯도 반경 0.3 기사
     public List<Article> getLatLongArticles(float lat, float lon) {
-        return articleRepository.findByLocation(lat - 0.3F, lat + 0.3F, lon - 0.3F, lon + 0.3F, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
+        float interval = 0.2F;
+        return articleRepository.findByLocation(lat - interval, lat + interval, lon - interval, lon + interval, lat, lon, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 치안 수치 (시각화)
