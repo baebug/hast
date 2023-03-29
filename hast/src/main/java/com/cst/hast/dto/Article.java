@@ -35,7 +35,7 @@ public class Article {
                 entity.getArticleUrl(),
                 entity.getArticleImage(),
                 entity.getArticleCategory(),
-                entity.getArticleScore(),
+                entity.getArticleScore() / (double) entity.getArticleRowCount(),
                 entity.getArticleDateTime().toString(),
                 entity.getArticleLat(),
                 entity.getArticleLong()
