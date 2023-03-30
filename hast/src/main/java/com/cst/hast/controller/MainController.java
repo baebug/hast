@@ -102,10 +102,10 @@ public class MainController {
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    @GetMapping("/scores/{code}")
-    public Response<List<CountryScoreResponse>> getCountryScore(@PathVariable String code) {
+    @GetMapping("/scores")
+    public Response<List<CountryScoreResponse>> getCountryScore() {
         log.info("get scores");
-        return Response.of(mainService.getCountryScore(code).stream().map(CountryScoreResponse::fromCountryScore).collect(Collectors.toList()));
+        return Response.of(mainService.getCountryScore().stream().map(CountryScoreResponse::fromCountryScore).collect(Collectors.toList()));
     }
 
 }

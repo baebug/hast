@@ -46,13 +46,13 @@ public class MainService {
 
     // 국가 기사 최신순 500개
     public List<Article> getCountryArticles(String code) {
-        return articleRepository.findTop500ByArticleCountryCodeOrderByArticleDateTime(code).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return articleRepository.findTop500ByArticleCountryCodeOrderByArticleDateTimeDesc(code).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 받은 위도, 겯도 반경 0.3 기사
     public List<Article> getLatLongArticles(float lat, float lon) {
         float interval = 0.2F;
-        return articleRepository.findByLocation(lat - interval, lat + interval, lon - interval, lon + interval, lat, lon, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return articleRepository.findByLocation(lat - interval, lat + interval, lon - interval, lon + interval, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 치안 수치 (시각화)
@@ -65,7 +65,7 @@ public class MainService {
         return articleRepository.findLatLongCountScore().stream().map(Dots::fromEntity).collect(Collectors.toList());
     }
 
-    public Collection<CountryScore> getCountryScore(String code) {
+    public Collection<CountryScore> getCountryScore() {
         return articleRepository.findCountryScore().stream().map(CountryScore::fromEntity).collect(Collectors.toList());
     }
 }
