@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     // 최신 기사
-    List<ArticleEntity> findTop10ByOrderByArticleDateTimeDesc();
+    List<ArticleEntity> findTop10ByOrderByArticleDateTimeDescArticleScoreDesc();
 //    List<ArticleEntity> findTop10ByArticleDateTimeBetweenOrderByArticleScoreDesc(Timestamp past, Timestamp current);
 
     // 위도, 경도, 같은 개수, 치안 수치

@@ -37,9 +37,9 @@ public class MainService {
 //                stream().map(Article::fromEntity).collect(Collectors.toList());
 //    }
 
-        public List<Article> getUpdateArticles() {
+    public List<Article> getUpdateArticles() {
 
-        return articleRepository.findTop10ByOrderByArticleDateTimeDesc().
+        return articleRepository.findTop10ByOrderByArticleDateTimeDescArticleScoreDesc().
                 stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
