@@ -84,18 +84,6 @@ public class MainController {
         }
     }
 
-    // 치안 수치
-    @ApiOperation(value="국가 치안 수치 조회", notes="정상 동작 시 'result' return")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "API 정상 작동"),
-            @ApiResponse(code = 500, message = "서버 에러")
-    })
-    @GetMapping("/measures/{code}")
-    public Response<List<StaticsResponse>> getScore(@PathVariable String code) {
-        log.info("get measures");
-        return Response.of(mainService.getStatics(code).stream().map(StaticsResponse::fromMeasure).collect(Collectors.toList()));
-    }
-
     // 국가별 점수
     @ApiOperation(value="국가별 점수 조회", notes="정상 동작 시 'result' return")
     @ApiResponses({
@@ -107,6 +95,19 @@ public class MainController {
         log.info("get scores");
         return Response.of(mainService.getCountryScore().stream().map(CountryScoreResponse::fromCountryScore).collect(Collectors.toList()));
     }
+
+    // 차트 데이터
+    @ApiOperation(value="차트 데이터 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/charts/{code}")
+    public Response<List<ChartDataResponse>> getChartData(@PathVariable String code) {
+        log.info("get scores");
+        return Response.of(mainService.getChartData(code).stream().map(ChartDataResponse::fromChartData).collect(Collectors.toList()));
+    }
+
 
 }
 
