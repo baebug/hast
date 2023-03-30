@@ -1,6 +1,7 @@
 package com.cst.hast.service;
 
 import com.cst.hast.dto.Article;
+import com.cst.hast.dto.CountryScore;
 import com.cst.hast.dto.Dots;
 import com.cst.hast.dto.Statics;
 import com.cst.hast.entity.ArticleEntity;
@@ -62,5 +63,9 @@ public class MainService {
     // 위도, 경도, 같은 개수, 치안 수치
     public Collection<Dots> getLatLongCountScore() {
         return articleRepository.findLatLongCountScore().stream().map(Dots::fromEntity).collect(Collectors.toList());
+    }
+
+    public Collection<CountryScore> getCountryScore(String code) {
+        return articleRepository.findCountryScore().stream().map(CountryScore::fromEntity).collect(Collectors.toList());
     }
 }

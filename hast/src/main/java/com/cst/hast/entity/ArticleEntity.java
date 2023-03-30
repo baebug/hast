@@ -99,5 +99,11 @@ public class ArticleEntity {
         this.rowCount = rowCount;
     }
 
+    public ArticleEntity(String articleCountryCode, double score, Long rowCount) {
+        this.articleCountryCode = articleCountryCode;
+        this.score = score;
+        this.rowCount = rowCount;
+    }
+
 }
 

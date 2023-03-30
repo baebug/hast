@@ -40,4 +40,9 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
 
     // 치안 수치 얻을 때 article table 찾기 위함
     Optional<ArticleEntity> findByArticleCountryCode(String code);
+
+    @Query("SELECT new ArticleEntity(a.articleCountryCode, SUM(a.articleScore), SUM(a.articleRowCount))" +
+            "FROM ArticleEntity a " +
+            "GROUP BY a.articleCountryCode")
+    List<ArticleEntity> findCountryScore();
 }

@@ -96,6 +96,18 @@ public class MainController {
         return Response.of(mainService.getStatics(code).stream().map(StaticsResponse::fromMeasure).collect(Collectors.toList()));
     }
 
+    // 국가별 점수
+    @ApiOperation(value="국가별 점수 조회", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+    @GetMapping("/scores/{code}")
+    public Response<List<CountryScoreResponse>> getCountryScore(@PathVariable String code) {
+        log.info("get scores");
+        return Response.of(mainService.getCountryScore(code).stream().map(CountryScoreResponse::fromCountryScore).collect(Collectors.toList()));
+    }
+
 }
 
 // 1. 치안 점수 조회 (시각화)
