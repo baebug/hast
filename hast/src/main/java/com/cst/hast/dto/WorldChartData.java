@@ -19,7 +19,7 @@ public class WorldChartData {
     public static WorldChartData fromEntity(StatisticsEntity entity) {
         return new WorldChartData (
                 entity.getStatisticsMonth(),
-                entity.getStatisticsRowCount(),
+                entity.getStatisticsGkgTone(),
                 entity.getStatisticsCrimeCount(),
                 entity.getStatisticsAccidentCount(),
                 entity.getStatisticsDiseaseCount(),

@@ -1,6 +1,5 @@
 package com.cst.hast.dto.response;
 
-import com.cst.hast.dto.ChartData;
 import com.cst.hast.dto.WorldChartData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,17 +8,17 @@ import lombok.Getter;
 @AllArgsConstructor
 public class WorldChartDataResponse {
 
-    private String name;
-    private float worldTon;
-    private Integer worldCrimeCount;
-    private Integer worldAccidentCount;
-    private Integer worldDiseaseCount;
-    private Integer worldDisasterCount;
-    private Integer worldPoliticCount;
+    private Integer name;
+    private float ton;
+    private Integer crimeCount;
+    private Integer accidentCount;
+    private Integer diseaseCount;
+    private Integer disasterCount;
+    private Integer politicCount;
 
     public static WorldChartDataResponse fromWorldChartData(WorldChartData worldChartData) {
         return new WorldChartDataResponse(
-                worldChartData.getName(),
+                Integer.parseInt(worldChartData.getName()),
                 worldChartData.getWorldTon(),
                 worldChartData.getWorldCrimeCount(),
                 worldChartData.getWorldAccidentCount(),

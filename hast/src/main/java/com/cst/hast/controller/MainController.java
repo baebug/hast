@@ -2,6 +2,7 @@ package com.cst.hast.controller;
 
 
 import com.cst.hast.common.Response;
+import com.cst.hast.dto.ChartData;
 import com.cst.hast.dto.response.*;
 import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.service.MainService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,9 +105,12 @@ public class MainController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     @GetMapping("/charts/{code}")
-    public Response<List<ChartDataResponse>> getChartData(@PathVariable String code) {
+    public Response<ChartDataResponse> getChartData(@PathVariable String code) {
         log.info("get scores");
-        return Response.of(mainService.getChartData(code).stream().map(ChartDataResponse::fromChartData).collect(Collectors.toList()));
+        ChartData chartData = mainService.getChartData(code);
+        List<CountryChartDataResponse> countryList = chartData.getCountryList().stream().map(CountryChartDataResponse::fromChartData).collect(Collectors.toList());
+        List<WorldChartDataResponse> worldList = chartData.getWorldList().stream().map(WorldChartDataResponse::fromWorldChartData).collect(Collectors.toList());
+        return Response.of(new ChartDataResponse(countryList, worldList));
     }
 
 
