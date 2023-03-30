@@ -1,21 +1,14 @@
 package com.cst.hast.service;
 
-import com.cst.hast.dto.Article;
-import com.cst.hast.dto.CountryScore;
-import com.cst.hast.dto.Dots;
-import com.cst.hast.dto.Statics;
-import com.cst.hast.entity.ArticleEntity;
-import com.cst.hast.exception.HastApplicationException;
+import com.cst.hast.dto.*;
+import com.cst.hast.dto.response.ChartDataResponse;
 import com.cst.hast.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,8 +49,10 @@ public class MainService {
     }
 
     // 치안 수치 (시각화)
-    public List<Statics> getStatics(String code) {
-        return statisticsRepository.findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc(code).stream().map(Statics::fromEntity).collect(Collectors.toList());
+    public ChartData getChartData(String code) {
+        List<WorldChartData> worldChartData = statisticsRepository.findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc("ZZ").stream().map(WorldChartData::fromEntity).collect(Collectors.toList());
+        List<CountryChartData> countryChartData = statisticsRepository.findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc(code).stream().map(CountryChartData::fromEntity).collect(Collectors.toList());
+        return new ChartData(countryChartData, worldChartData);
     }
 
     // 위도, 경도, 같은 개수, 치안 수치
@@ -68,4 +63,5 @@ public class MainService {
     public Collection<CountryScore> getCountryScore() {
         return articleRepository.findCountryScore().stream().map(CountryScore::fromEntity).collect(Collectors.toList());
     }
+
 }
