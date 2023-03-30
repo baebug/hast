@@ -15,6 +15,7 @@ public class UpdateArticleResponse {
     private String engKeyword;
     private String url;
     private String timeStamp;
+    private double score;
 
     public static UpdateArticleResponse fromArticle(Article article) {
         return new UpdateArticleResponse(
@@ -22,7 +23,8 @@ public class UpdateArticleResponse {
                 article.getKorKeyword(),
                 article.getEngKeyword(),
                 article.getUrl(),
-                article.getTimeStamp()
+                article.getTimeStamp(),
+                article.getScore()
         );
     }
 
