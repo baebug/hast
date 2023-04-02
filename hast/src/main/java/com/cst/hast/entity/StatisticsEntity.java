@@ -29,6 +29,9 @@ public class StatisticsEntity {
 	@Column(name = "statistics_row_count")
 	private Integer statisticsRowCount;
 
+	@Column(name = "statistics_etc_count")
+	private Integer statisticsEtcCount;
+
 	@Column(name = "statistics_crime_count")
 	private Integer statisticsCrimeCount;
 

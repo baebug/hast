@@ -1,12 +1,25 @@
 package com.cst.hast.repository;
+import com.cst.hast.dto.ChartData;
 import com.cst.hast.entity.StatisticsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 
 public interface StatisticsRepository extends JpaRepository<StatisticsEntity, Long> {
 
-    List<StatisticsEntity> findAllByStatisticsCountryCodeOrderByStatisticsMonthAsc(String code);
+    @Query("SELECT new com.cst.hast.dto.ChartData(s1.statisticsMonth, s1.statisticsGkgTone, s2.statisticsGkgTone, "
+            + "s1.statisticsRowCount, s1.statisticsCrimeCount, " +
+            "s1.statisticsAccidentCount, "
+            + "s1.statisticsDiseaseCount, "
+            + "s1.statisticsDisasterCount, "
+            + "s1.statisticsPoliticCount) " +
+            "FROM StatisticsEntity s1 JOIN StatisticsEntity s2 " +
+            "ON s1.statisticsMonth = s2.statisticsMonth " +
+            "WHERE s1.statisticsCountryCode =:countryCode AND s2.statisticsCountryCode = 'ZZ' " +
+            "ORDER BY s1.statisticsMonth")
+    List<ChartData> findByCode(@Param("countryCode") String countryCode);
 
 }
