@@ -27,20 +27,24 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     List<ArticleEntity> findLatLongCountScore();
 
     // 최신순 기사 500개
-    List<ArticleEntity> findTop500ByArticleCountryCodeOrderByArticleDateTimeDesc(String code);
+    @Query("SELECT a " +
+            "FROM ArticleEntity a " +
+            "WHERE a.articleScore >= 0 " +
+            "AND a.articleCountryCode =:code " +
+            "ORDER BY a.articleDateTime DESC")
+    List<ArticleEntity> findUpdatedArticles(String code, Pageable pageable);
 
     // "ORDER BY SQRT(POWER(:centerLat - a.articleLat, 2) + POWER(:centerLong - a.articleLong, 2)), a.articleScore DESC")
     // 받은 위도 경도 between -0.3, +0.3 기사 500개
     @Query("SELECT a " +
             "FROM ArticleEntity a " +
-            "WHERE a.articleLat BETWEEN :minLat AND :maxLat " +
+            "WHERE a.articleScore >= 0 " +
+            "AND a.articleLat BETWEEN :minLat AND :maxLat " +
             "AND a.articleLong BETWEEN :minLong AND :maxLong " +
             "ORDER BY a.articleDateTime DESC")
     List<ArticleEntity> findByLocation(@Param("minLat") float minLat, @Param("maxLat") float maxLat, @Param("minLong") float minLong, @Param("maxLong") float maxLong,
                                        Pageable pageable);
 
-    // 치안 수치 얻을 때 article table 찾기 위함
-    Optional<ArticleEntity> findByArticleCountryCode(String code);
 
     @Query("SELECT new ArticleEntity(a.articleCountryCode, SUM(a.articleScore), SUM(a.articleRowCount))" +
             "FROM ArticleEntity a " +

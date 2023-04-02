@@ -1,17 +1,20 @@
 package com.cst.hast.dto;
 
-import com.cst.hast.dto.response.CountryChartDataResponse;
-import com.cst.hast.dto.response.WorldChartDataResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
-import java.util.List;
-
-@Getter
+@Data
 @AllArgsConstructor
 public class ChartData {
 
-    List<CountryChartData> countryList;
-    List<WorldChartData> worldList;
+    private String name;
+    private float country_tone;
+    private float world_tone;
+    private Integer bar;
+    private Integer crime;
+    private Integer accident;
+    private Integer disease;
+    private Integer disaster;
+    private Integer politic;
+
 
 }

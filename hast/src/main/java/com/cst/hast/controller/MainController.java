@@ -105,12 +105,9 @@ public class MainController {
             @ApiResponse(code = 500, message = "서버 에러")
     })
     @GetMapping("/charts/{code}")
-    public Response<ChartDataResponse> getChartData(@PathVariable String code) {
-        log.info("get scores");
-        ChartData chartData = mainService.getChartData(code);
-        List<CountryChartDataResponse> countryList = chartData.getCountryList().stream().map(CountryChartDataResponse::fromChartData).collect(Collectors.toList());
-        List<WorldChartDataResponse> worldList = chartData.getWorldList().stream().map(WorldChartDataResponse::fromWorldChartData).collect(Collectors.toList());
-        return Response.of(new ChartDataResponse(countryList, worldList));
+    public Response<List<ChartDataResponse>> getChartData(@PathVariable String code) {
+        log.info("get chart data");
+        return Response.of(mainService.getChartData(code).stream().map(ChartDataResponse::fromChartData).collect(Collectors.toList()));
     }
 
 

@@ -11,11 +11,13 @@ public class CountryScoreResponse {
 
     private String countryCode;
     private double score;
+    private Long count;
 
     public static CountryScoreResponse fromCountryScore(CountryScore countryScore) {
         return new CountryScoreResponse(
                 countryScore.getCountryCode(),
-                countryScore.getScore()
+                countryScore.getScore(),
+                countryScore.getCount()
         );
     }
 

@@ -10,11 +10,13 @@ public class CountryScore {
 
     private String countryCode;
     private double score;
+    private Long count;
 
     public static CountryScore fromEntity(ArticleEntity entity) {
         return new CountryScore (
                 entity.getArticleCountryCode(),
-                entity.getScore() / (double) entity.getRowCount()
+                entity.getScore() / (double) entity.getRowCount(),
+                entity.getRowCount()
         );
     }
 
