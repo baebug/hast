@@ -29,10 +29,12 @@ public class ChartDataResponse {
         pieList.add(disaster);
         PieDataResponse politic = new PieDataResponse("politic", "정치", chartData.getPolitic());
         pieList.add(politic);
+        PieDataResponse etc = new PieDataResponse("etc", "기타", chartData.getEtc());
+        pieList.add(etc);
 
         return new ChartDataResponse(
                 Integer.parseInt(chartData.getName()),
-                chartData.getCountry_tone(),
+                chartData.getCountry_tone() / chartData.getBar(),
                 chartData.getWorld_tone(),
                 chartData.getBar(),
                 pieList

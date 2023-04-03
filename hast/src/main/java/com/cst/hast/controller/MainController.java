@@ -77,10 +77,10 @@ public class MainController {
         log.info("get lat, long +-0.3 articles");
 
         try {
-            Float floatLat = Float.parseFloat(lat);
-            Float floatLon = Float.parseFloat(lon);
+            Double doubletLat = Double.parseDouble(lat);
+            Double doubleLon = Double.parseDouble(lon);
 
-            return Response.of(mainService.getLatLongArticles(floatLat, floatLon).stream().map(LatLongResponse::fromArticle).collect(Collectors.toList()));
+            return Response.of(mainService.getLatLongArticles(doubletLat, doubleLon).stream().map(LatLongResponse::fromArticle).collect(Collectors.toList()));
         } catch (NumberFormatException e) { // 잘못된 형식의 데이터
             throw new HastApplicationException();
         }

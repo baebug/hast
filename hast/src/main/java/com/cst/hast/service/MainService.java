@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MainService {
 
-    private final ArticleRepository articleRepository;
+    private final DslRepository exportDslRepository;
     private final StatisticsRepository statisticsRepository;
 
 
@@ -33,19 +33,19 @@ public class MainService {
 
     public List<Article> getUpdateArticles() {
 
-        return articleRepository.findTop10ByOrderByArticleDateTimeDescArticleScoreDesc().
+        return exportDslRepository.findCountryByScore().
                 stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 국가 기사 최신순 500개
     public List<Article> getCountryArticles(String code) {
-        return articleRepository.findUpdatedArticles(code, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return exportDslRepository.findUpdatedArticles(code).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 받은 위도, 겯도 반경 0.3 기사
-    public List<Article> getLatLongArticles(float lat, float lon) {
+    public List<Article> getLatLongArticles(double lat, double lon) {
         float interval = 0.2F;
-        return articleRepository.findByLocation(lat - interval, lat + interval, lon - interval, lon + interval, PageRequest.of(0, 500)).stream().map(Article::fromEntity).collect(Collectors.toList());
+        return exportDslRepository.findByLocation(lat - interval, lat + interval, lon - interval, lon + interval).stream().map(Article::fromEntity).collect(Collectors.toList());
     }
 
     // 치안 수치 (시각화)
@@ -55,11 +55,11 @@ public class MainService {
 
     // 위도, 경도, 같은 개수, 치안 수치
     public Collection<Dots> getLatLongCountScore() {
-        return articleRepository.findLatLongCountScore().stream().map(Dots::fromEntity).collect(Collectors.toList());
+        return exportDslRepository.findLatLongCountScore().stream().map(Dots::fromEntity).collect(Collectors.toList());
     }
 
     public Collection<CountryScore> getCountryScore() {
-        return articleRepository.findCountryScore().stream().map(CountryScore::fromEntity).collect(Collectors.toList());
+        return exportDslRepository.findCountryScore().stream().map(CountryScore::fromEntity).collect(Collectors.toList());
     }
 
 }
