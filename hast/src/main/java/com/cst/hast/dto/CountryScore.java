@@ -1,6 +1,6 @@
 package com.cst.hast.dto;
 
-import com.cst.hast.entity.ArticleEntity;
+import com.cst.hast.entity.ExportEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,11 +12,11 @@ public class CountryScore {
     private double score;
     private Long count;
 
-    public static CountryScore fromEntity(ArticleEntity entity) {
+    public static CountryScore fromEntity(ExportEntity entity) {
         return new CountryScore (
-                entity.getArticleCountryCode(),
-                entity.getScore() / (double) entity.getRowCount(),
-                entity.getRowCount()
+                entity.getExportCountryCode(),
+                entity.getExportScore() / (double) entity.getExportRowCount(),
+                entity.getExportRowCount()
         );
     }
 

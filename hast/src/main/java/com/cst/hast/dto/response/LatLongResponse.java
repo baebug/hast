@@ -16,8 +16,6 @@ public class LatLongResponse {
     private Integer category;
     private double score;
     private String timeStamp;
-    private float latitude;
-    private float longitude;
 
     public static LatLongResponse fromArticle(Article article) {
         return new LatLongResponse(
@@ -28,9 +26,7 @@ public class LatLongResponse {
                 article.getImgUrl(),
                 article.getCategory(),
                 article.getScore(),
-                article.getTimeStamp(),
-                article.getLatitude(),
-                article.getLongitude()
+                article.getTimeStamp()
         );
     }
 

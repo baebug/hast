@@ -19,8 +19,6 @@ public class CountryArticleResponse {
     private Integer category;
     private double score;
     private String timeStamp;
-    private float latitude;
-    private float longitude;
 
 
 
@@ -33,9 +31,7 @@ public class CountryArticleResponse {
                 article.getImgUrl(),
                 article.getCategory(),
                 article.getScore(),
-                article.getTimeStamp(),
-                article.getLatitude(),
-                article.getLongitude()
+                article.getTimeStamp()
         );
     }
 

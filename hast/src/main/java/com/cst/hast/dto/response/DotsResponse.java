@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DotsResponse {
 
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private double score;
     private Long count;
 

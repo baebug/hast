@@ -1,123 +1,54 @@
-﻿CREATE TABLE `world` (
-	`world_id`	BIGINT	NOT NULL,
-	`world_kor_name`	VARCHAR(255)	NOT NULL,
-	`world_eng_name`	VARCHAR(255)	NOT NULL,
-	`world_alpha2`	VARCHAR(2)	NOT NULL,
-	`world_alpha3`	VARCHAR(3)	NOT NULL,
-	`world_latitude`	FLOAT	NOT NULL,
-	`world_longtitude`	FLOAT	NOT NULL
-);
+﻿CREATE TABLE IF NOT EXISTS `hast`.`export_table` (
+    `export_event_id` BIGINT NOT NULL,
+    `export_root_code` VARCHAR(10) NULL DEFAULT NULL,
+    `export_base_code` VARCHAR(10)NULL DEFAULT NULL,
+    `export_code` VARCHAR(10) NULL DEFAULT NULL,
+    `export_country_code` VARCHAR(10) NULL DEFAULT NULL,
+    `export_lat` DOUBLE NULL DEFAULT NULL,
+    `export_long` DOUBLE NULL DEFAULT NULL,
+    `export_date` DATE NULL DEFAULT NULL,
+    `export_datetime` TIMESTAMP NULL DEFAULT NULL,
+    `export_url` TEXT NULL DEFAULT NULL,
+    `export_score` DOUBLE NULL DEFAULT NULL,
+    `export_row_count` BIGINT NULL DEFAULT NULL,
 
-CREATE TABLE `event` (
-	`event_id`	BIGINT	NOT NULL,
-	`world_id`	BIGINT	NOT NULL,
-	`event_code`	VARCHAR(255)	NULL,
-	`event_class`	INTEGER	NULL,
-	`event_gold`	FLOAT	NULL,
-	`event_ton`	NUMERIC	NULL,
-	`event_url`	VARCHAR(255)	NULL,
-	`event_latitude`	FLOAT	NULL,
-	`event_longtitude`	FLOAT	NULL
-);
+    PRIMARY KEY (`export_event_id`)
+    ) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE `gkg` (
-	`gkg_id`	BIGINT	NOT NULL,
-	`world_id`	BIGINT	NOT NULL,
-	`gkg_code`	VARCHAR(255)	NULL,
-	`gkg_theme`	INTEGER	NULL,
-	`gkg_url`	VARCHAR(255)	NULL
-);
 
-CREATE TABLE `safety` (
-	`world_id`	BIGINT	NOT NULL,
-	`safety1`	BIGINT	NOT NULL,
-	`safety2`	BIGINT	NOT NULL,
-	`safety3`	BIGINT	NOT NULL,
-	`safety4`	BIGINT	NOT NULL,
-	`safety5`	BIGINT	NOT NULL,
-	`safety6`	BIGINT	NOT NULL,
-	`safety7`	BIGINT	NOT NULL,
-	`safety8`	BIGINT	NOT NULL,
-	`safety9`	BIGINT	NOT NULL,
-	`safety10`	BIGINT	NOT NULL,
-	`safety11`	BIGINT	NOT NULL,
-	`safety12`	BIGINT	NOT NULL
-);
-
-CREATE TABLE `eng_info` (
-	`world_id`	BIGINT	NOT NULL,
-	`info_name`	VARCHAR(255)	NOT NULL,
-	`info_capital`	VARCHAR(255)	NOT NULL,
-	`info_money`	VARCHAR(255)	NOT NULL,
-	`info_size`	VARCHAR(255)	NOT NULL,
-	`info_popul`	INT	NOT NULL
-);
-
-CREATE TABLE `kor_info` (
-	`world_id`	BIGINT	NOT NULL,
-	`info_name`	VARCHAR(255)	NOT NULL,
-	`info_capital`	VARCHAR(255)	NOT NULL,
-	`info_money`	VARCHAR(255)	NOT NULL,
-	`info_size`	VARCHAR(255)	NOT NULL,
-	`info_popul`	INT	NOT NULL
-);
-
-ALTER TABLE `world` ADD CONSTRAINT `PK_WORLD` PRIMARY KEY (
-	`world_id`
-);
-
-ALTER TABLE `event` ADD CONSTRAINT `PK_EVENT` PRIMARY KEY (
-	`event_id`
-);
-
-ALTER TABLE `gkg` ADD CONSTRAINT `PK_GKG` PRIMARY KEY (
-	`gkg_id`
-);
-
-ALTER TABLE `safety` ADD CONSTRAINT `PK_SAFETY` PRIMARY KEY (
-	`world_id`
-);
-
-ALTER TABLE `eng_info` ADD CONSTRAINT `PK_ENG_INFO` PRIMARY KEY (
-	`world_id`
-);
-
-ALTER TABLE `kor_info` ADD CONSTRAINT `PK_KOR_INFO` PRIMARY KEY (
-	`world_id`
-);
-
-ALTER TABLE `event` ADD CONSTRAINT `FK_world_TO_event_1` FOREIGN KEY (
-	`world_id`
-)
-REFERENCES `world` (
-	`world_id`
-);
-
-ALTER TABLE `gkg` ADD CONSTRAINT `FK_world_TO_gkg_1` FOREIGN KEY (
-	`world_id`
-)
-REFERENCES `world` (
-	`world_id`
-);
-
-ALTER TABLE `safety` ADD CONSTRAINT `FK_world_TO_safety_1` FOREIGN KEY (
-	`world_id`
-)
-REFERENCES `world` (
-	`world_id`
-);
-
-ALTER TABLE `eng_info` ADD CONSTRAINT `FK_world_TO_eng_info_1` FOREIGN KEY (
-	`world_id`
-)
-REFERENCES `world` (
-	`world_id`
-);
-
-ALTER TABLE `kor_info` ADD CONSTRAINT `FK_world_TO_kor_info_1` FOREIGN KEY (
-	`world_id`
-)
-REFERENCES `world` (
-	`world_id`
-);
-
+CREATE TABLE IF NOT EXISTS `hast`.`point_table` (
+    `point_id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `point_event_id` BIGINT NOT NULL,
+    `point_country_code` CHAR(10) NULL DEFAULT NULL,
+    `point_kor_comment` VARCHAR(255) NULL DEFAULT NULL,
+    `point_eng_comment` VARCHAR(255) NULL DEFAULT NULL,
+    `point_sentence` INT NULL DEFAULT NULL,
+    `point_confidence` DOUBLE NULL DEFAULT NULL,
+    `point_mentions_tone` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_tone` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_positive` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_negative` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_activity` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_news` DOUBLE NULL DEFAULT NULL,
+    `point_gkg_count` INT NULL DEFAULT NULL,
+    `point_event_datetime` TIMESTAMP NULL DEFAULT NULL,
+    `point_datetime` TIMESTAMP NULL DEFAULT NULL,
+    `point_time_diff` BIGINT NULL DEFAULT NULL,
+    `point_source` TEXT NULL DEFAULT NULL,
+    `point_url` TEXT NULL DEFAULT NULL,
+    `point_image` TEXT NULL DEFAULT NULL,
+    `point_theme_crime` DOUBLE NULL DEFAULT NULL,
+    `point_theme_accident` DOUBLE NULL DEFAULT NULL,
+    `point_theme_disease` DOUBLE NULL DEFAULT NULL,
+    `point_theme_disaster` DOUBLE NULL DEFAULT NULL,
+    `point_theme_politic` DOUBLE NULL DEFAULT NULL,
+    `point_theme_total` DOUBLE NULL DEFAULT NULL,
+    `point_category` INT NULL DEFAULT NULL,
+    `point_year` CHAR(4) NULL DEFAULT NULL,
+    `point_month` CHAR(2) NULL DEFAULT NULL,
+    `point_score` DOUBLE NULL DEFAULT NULL
+    ) ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;

@@ -1,6 +1,6 @@
 package com.cst.hast.dto;
 
-import com.cst.hast.entity.ArticleEntity;
+import com.cst.hast.entity.ExportEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,16 +10,16 @@ public class Dots {
 
     private Long count;
     private double score;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
 
-    public static Dots fromEntity(ArticleEntity entity) {
+    public static Dots fromEntity(ExportEntity entity) {
         return new Dots (
-                entity.getCount(),
-                entity.getScore() / (double) entity.getRowCount(),
-                entity.getArticleLat(),
-                entity.getArticleLong()
+                entity.getExportRowCount(),
+                entity.getExportScore() / (double) entity.getExportRowCount(),
+                entity.getExportLat(),
+                entity.getExportLong()
         );
     }
 

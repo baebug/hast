@@ -16,5 +16,7 @@ public class ChartData {
     private Integer disaster;
     private Integer politic;
 
+    private Integer etc;
+
 
 }
