@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface StatisticsRepository extends JpaRepository<StatisticsEntity, Long> {
 
-    @Query("SELECT new com.cst.hast.dto.ChartData(s1.statisticsMonth, s1.statisticsGkgTone, s2.statisticsGkgTone, "
+    @Query("SELECT new com.cst.hast.dto.ChartData(s1.statisticsMonth, s1.statisticsGkgTone, s2.statisticsGkgTone / s2.statisticsRowCount, "
             + "s1.statisticsRowCount, s1.statisticsCrimeCount, " +
             "s1.statisticsAccidentCount, "
             + "s1.statisticsDiseaseCount, "
@@ -19,8 +19,7 @@ public interface StatisticsRepository extends JpaRepository<StatisticsEntity, Lo
             + "s1.statisticsEtcCount)" +
             "FROM StatisticsEntity s1 JOIN StatisticsEntity s2 " +
             "ON s1.statisticsMonth = s2.statisticsMonth " +
-            "WHERE s1.statisticsCountryCode =:countryCode AND s2.statisticsCountryCode = 'ZZ' " +
-            "ORDER BY CAST(s1.statisticsMonth AS integer)")
+            "WHERE s1.statisticsCountryCode =:countryCode AND s2.statisticsCountryCode = 'ZZ' ")
 
     List<ChartData> findByCode(@Param("countryCode") String countryCode);
 
