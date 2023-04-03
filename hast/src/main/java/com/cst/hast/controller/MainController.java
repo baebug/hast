@@ -3,6 +3,7 @@ package com.cst.hast.controller;
 
 import com.cst.hast.common.Response;
 import com.cst.hast.dto.ChartData;
+import com.cst.hast.dto.Country;
 import com.cst.hast.dto.response.*;
 import com.cst.hast.exception.HastApplicationException;
 import com.cst.hast.service.MainService;
@@ -34,10 +35,10 @@ public class MainController {
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
-    @GetMapping(value = "/articles/updates")
-    public Response<List<UpdateArticleResponse>> getUpdateArticles() {
-        log.info("get updated articles");
-        return Response.of(mainService.getUpdateArticles().stream().map(UpdateArticleResponse::fromArticle).collect(Collectors.toList()));
+    @GetMapping(value = "/articles")
+    public Response<List<CountryResponse>> getCountryByScore() {
+        log.info("get country by score - main page");
+        return Response.of(mainService.getCountryByScore().stream().map(CountryResponse::fromCountry).collect(Collectors.toList()));
     }
 
     // 위도, 경도, 같은 개수, 치안 수치
