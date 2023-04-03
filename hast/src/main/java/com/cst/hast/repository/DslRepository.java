@@ -3,10 +3,13 @@ package com.cst.hast.repository;
 
 import com.cst.hast.dto.Article;
 import com.cst.hast.dto.ChartData;
+import com.cst.hast.dto.Country;
 import com.cst.hast.entity.ExportEntity;
 import com.cst.hast.entity.PointEntity;
 import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import java.util.List;
 
 import static com.cst.hast.entity.QPointEntity.pointEntity;
 import static com.cst.hast.entity.QExportEntity.exportEntity;
+import static com.cst.hast.entity.QStatisticsEntity.statisticsEntity;
 import static com.querydsl.core.types.Projections.constructor;
 
 @Repository
@@ -27,8 +31,7 @@ public class DslRepository {
 
     // -+ 0.2 반경 내 기사 리스트 500개
     public List<PointEntity> findByLocation(double minLat, double maxLat, double minLong, double maxLong) {
-
-        return queryFactory.selectDistinct(
+        return queryFactory.select(
                     constructor(PointEntity.class,
                             pointEntity.pointEventId, pointEntity.pointKorComment, pointEntity.pointEngComment, pointEntity.pointUrl, pointEntity.pointImage, pointEntity.pointCategory,
                             pointEntity.pointScore, pointEntity.pointDatetime)
@@ -41,6 +44,10 @@ public class DslRepository {
                                         .and(exportEntity.exportLong.between(minLong, maxLong))
                                 )
                 ))
+                .groupBy(pointEntity.pointEventId, pointEntity.pointKorComment,
+                        pointEntity.pointEngComment, pointEntity.pointUrl, pointEntity.pointImage, pointEntity.pointCategory,
+                        pointEntity.pointScore, pointEntity.pointDatetime)
+                .orderBy(pointEntity.pointDatetime.desc())
                 .limit(500)
                 .fetch();
     }
@@ -78,17 +85,22 @@ public class DslRepository {
                         exportEntity.exportScore.sum(),
                         exportEntity.exportRowCount.sum()))
                 .from(exportEntity)
+                .groupBy(exportEntity.exportCountryCode)
                 .fetch();
     }
 
     // 메인페이지 국가 위험도순 순위
-    public List<PointEntity> findCountryByScore() {
-        return queryFactory.selectFrom(pointEntity)
-                .groupBy(pointEntity.pointCountryCode)
-                .orderBy(pointEntity.pointScore.desc())
+    public List<Country> findCountryByScore() {
+        return queryFactory.select(constructor(Country.class, exportEntity.exportCountryCode,
+                        exportEntity.exportScore.sum(), exportEntity.exportRowCount.sum()))
+                .from(exportEntity)
+                .groupBy(exportEntity.exportCountryCode)
+                .orderBy(exportEntity.exportScore.sum().doubleValue()
+                        .divide(exportEntity.exportRowCount.sum().doubleValue()).desc())
                 .limit(10)
                 .fetch();
     }
+
 
 }
 

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -49,6 +50,18 @@ public class ExportEntity {
     @Column(name="export_row_count")
     private Long exportRowCount;
 
+    public ExportEntity(double exportLat, double exportLong, double exportScore, Long exportRowCount) {
+        this.exportLat = exportLat;
+        this.exportLong = exportLong;
+        this.exportScore = exportScore;
+        this.exportRowCount = exportRowCount;
+    }
+
+    public ExportEntity(String exportCountryCode, double exportScore, Long exportRowCount) {
+        this.exportCountryCode = exportCountryCode;
+        this.exportScore = exportScore;
+        this.exportRowCount = exportRowCount;
+    }
 
 }
 

@@ -31,10 +31,9 @@ public class MainService {
 //                stream().map(Article::fromEntity).collect(Collectors.toList());
 //    }
 
-    public List<Article> getUpdateArticles() {
+    public List<Country> getCountryByScore() {
 
-        return exportDslRepository.findCountryByScore().
-                stream().map(Article::fromEntity).collect(Collectors.toList());
+        return exportDslRepository.findCountryByScore();
     }
 
     // 국가 기사 최신순 500개
