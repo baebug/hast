@@ -1,12 +1,32 @@
 package com.cst.hast.entity;
 
 import javax.persistence.*;
+
+import com.cst.hast.dto.ChartData;
 import lombok.*;
 
 @Entity
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SqlResultSetMapping(
+		name = "ChartDataResult",
+		classes = @ConstructorResult(
+				targetClass = ChartData.class,
+				columns = {
+						@ColumnResult(name = "name", type = Integer.class),
+						@ColumnResult(name = "country_tone", type = Double.class),
+						@ColumnResult(name = "world_tone", type = Double.class),
+						@ColumnResult(name = "bar", type = Integer.class),
+						@ColumnResult(name = "crime", type = Integer.class),
+						@ColumnResult(name = "accident", type = Integer.class),
+						@ColumnResult(name = "disease", type = Integer.class),
+						@ColumnResult(name = "disaster", type = Integer.class),
+						@ColumnResult(name = "politic", type = Integer.class),
+						@ColumnResult(name = "etc", type = Integer.class)
+				}
+		)
+)
 @Table (name = "statistics_table")
 public class StatisticsEntity {
 

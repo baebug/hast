@@ -18,5 +18,16 @@ public class ChartData {
 
     private Integer etc;
 
-
+    public ChartData(String name, float country_tone, double world_tone, Integer bar, Integer crime, Integer accident, Integer disease, Integer disaster, Integer politic, Integer etc) {
+        this.name = name;
+        this.country_tone = country_tone;
+        this.world_tone = (float) world_tone;
+        this.bar = bar;
+        this.crime = crime;
+        this.accident = accident;
+        this.disease = disease;
+        this.disaster = disaster;
+        this.politic = politic;
+        this.etc = etc;
+    }
 }

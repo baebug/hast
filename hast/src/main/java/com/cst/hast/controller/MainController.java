@@ -29,8 +29,8 @@ public class MainController {
 
     private final MainService mainService;
 
-    // 최신 기사
-    @ApiOperation(value="최신 기사 목록 조회 (10개)", notes="정상 동작 시 'result' return")
+    // 위험도순 국가 순위
+    @ApiOperation(value="위험도순 국가 순위 (10개)", notes="정상 동작 시 'result' return")
     @ApiResponses({
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
@@ -41,17 +41,30 @@ public class MainController {
         return Response.of(mainService.getCountryByScore().stream().map(CountryResponse::fromCountry).collect(Collectors.toList()));
     }
 
-    // 위도, 경도, 같은 개수, 치안 수치
-    @ApiOperation(value="전세계 위도, 경도, 같은 위도 경도의 개수, 치안 수치 조회", notes="정상 동작 시 'result' return")
+    // 2d map 세계 점 찍기
+    @ApiOperation(value="2d map 세계 점 찍기", notes="정상 동작 시 'result' return")
     @ApiResponses({
             @ApiResponse(code = 200, message = "API 정상 작동"),
             @ApiResponse(code = 500, message = "서버 에러")
     })
 
     @GetMapping("/info/dots")
-    public Response<List<DotsResponse>> getLatLongCountScore() {
-        log.info("get dots info");
-        return Response.of(mainService.getLatLongCountScore().stream().map(DotsResponse::fromDots).collect(Collectors.toList()));
+    public Response<List<DotsResponse>> getWorldDots() {
+        log.info("get world dots info");
+        return Response.of(mainService.getWorldDots().stream().map(DotsResponse::fromDots).collect(Collectors.toList()));
+    }
+
+    // 2d map 국가 점 찍기
+    @ApiOperation(value="2d map 세계 점 찍기", notes="정상 동작 시 'result' return")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "API 정상 작동"),
+            @ApiResponse(code = 500, message = "서버 에러")
+    })
+
+    @GetMapping("/info/dots/{code}")
+    public Response<List<DotsResponse>> getCountryDots(@PathVariable("code") String code) {
+        log.info("get country dots info");
+        return Response.of(mainService.getCountryDots(code).stream().map(DotsResponse::fromDots).collect(Collectors.toList()));
     }
 
     // 최신순 기사 500개
@@ -67,7 +80,7 @@ public class MainController {
     }
 
 
-    // 받은 위도, 경도 0.3 반경내 정사각형 범위 기사 500개 조회
+    // 받은 위도, 경도 기사 500개 조회
     @ApiOperation(value="받은 위도, 경도 0.3 반경내 정사각형 범위 기사 500개 조회", notes="정상 동작 시 'result' return")
     @ApiResponses({
             @ApiResponse(code = 200, message = "API 정상 작동"),
@@ -75,7 +88,7 @@ public class MainController {
     })
     @GetMapping("/articles/{lat}/{lon}")
     public Response<List<LatLongResponse>> getLatLongArticles(@PathVariable String lat, @PathVariable String lon) {
-        log.info("get lat, long +-0.3 articles");
+        log.info("get lat, long articles");
 
         try {
             Double doubletLat = Double.parseDouble(lat);

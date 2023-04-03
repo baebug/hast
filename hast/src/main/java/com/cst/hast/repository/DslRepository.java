@@ -6,15 +6,23 @@ import com.cst.hast.dto.ChartData;
 import com.cst.hast.dto.Country;
 import com.cst.hast.entity.ExportEntity;
 import com.cst.hast.entity.PointEntity;
-import com.querydsl.core.types.ConstructorExpression;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.Projections;
+import com.cst.hast.entity.QPointEntity;
+import com.cst.hast.entity.QStatisticsEntity;
+import com.querydsl.core.types.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.transform.Transformers;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import java.time.YearMonth;
 import java.util.List;
 
 import static com.cst.hast.entity.QPointEntity.pointEntity;
@@ -29,32 +37,9 @@ public class DslRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    // -+ 0.2 반경 내 기사 리스트 500개
-    public List<PointEntity> findByLocation(double minLat, double maxLat, double minLong, double maxLong) {
-        return queryFactory.select(
-                    constructor(PointEntity.class,
-                            pointEntity.pointEventId, pointEntity.pointKorComment, pointEntity.pointEngComment, pointEntity.pointUrl, pointEntity.pointImage, pointEntity.pointCategory,
-                            pointEntity.pointScore, pointEntity.pointDatetime)
-                )
-                .from(pointEntity)
-                .where(pointEntity.pointEventId.in(
-                        JPAExpressions.select(exportEntity.exportEventId)
-                                .from(exportEntity)
-                                .where(exportEntity.exportLat.between(minLat, maxLat)
-                                        .and(exportEntity.exportLong.between(minLong, maxLong))
-                                )
-                ))
-                .groupBy(pointEntity.pointEventId, pointEntity.pointKorComment,
-                        pointEntity.pointEngComment, pointEntity.pointUrl, pointEntity.pointImage, pointEntity.pointCategory,
-                        pointEntity.pointScore, pointEntity.pointDatetime)
-                .orderBy(pointEntity.pointDatetime.desc())
-                .limit(500)
-                .fetch();
-    }
-
-    // 2d 맵 점 찍기
+    // 2d 맵 점 찍기 - 세계
     // dto로 받기
-    public List<ExportEntity> findLatLongCountScore() {
+    public List<ExportEntity> findWorldDots() {
         return queryFactory.select(constructor(
                         ExportEntity.class,
                         exportEntity.exportLat,
@@ -66,15 +51,21 @@ public class DslRepository {
                 .fetch();
     }
 
-    // 2d 맵 사이드바 기사 500개
-    public List<PointEntity> findUpdatedArticles(String code) {
-        return queryFactory.selectFrom(pointEntity)
-                .where(pointEntity.pointScore.goe(0)
-                        .and(pointEntity.pointCountryCode.eq(code)))
-                .orderBy(pointEntity.pointDatetime.desc())
-                .limit(500)
+    // 2d 맵 점 찍기 - 국가
+    // dto로 받기
+    public List<ExportEntity> findCountryDots(String code) {
+        return queryFactory.select(constructor(
+                        ExportEntity.class,
+                        exportEntity.exportLat,
+                        exportEntity.exportLong,
+                        exportEntity.exportScore.sum(),
+                        exportEntity.exportRowCount.sum()))
+                .from(exportEntity)
+                .where(exportEntity.exportCountryCode.eq(code))
+                .groupBy(exportEntity.exportLat, exportEntity.exportLong)
                 .fetch();
     }
+
 
     // 메인 페이지 점
     // dto로 받기
@@ -98,6 +89,34 @@ public class DslRepository {
                 .orderBy(exportEntity.exportScore.sum().doubleValue()
                         .divide(exportEntity.exportRowCount.sum().doubleValue()).desc())
                 .limit(10)
+                .fetch();
+    }
+
+    public List<ChartData> findByCode(@Param("countryCode") String countryCode) {
+
+        QStatisticsEntity se = new QStatisticsEntity("se");
+        QStatisticsEntity se2 = new QStatisticsEntity("se2");
+        Integer currentMonth = YearMonth.now().getMonthValue();
+        return queryFactory
+                .select(Projections.constructor(ChartData.class,
+                        se.statisticsMonth,
+                        se.statisticsGkgTone,
+                        se2.statisticsGkgTone.divide(se2.statisticsRowCount),
+                        se.statisticsRowCount,
+                        se.statisticsCrimeCount,
+                        se.statisticsAccidentCount,
+                        se.statisticsDiseaseCount,
+                        se.statisticsDisasterCount,
+                        se.statisticsPoliticCount,
+                        se.statisticsEtcCount))
+                .from(se)
+                .join(se2)
+                .on(se.statisticsMonth.eq(se2.statisticsMonth))
+                .where(se.statisticsCountryCode.eq(countryCode)
+                        .and(se2.statisticsCountryCode.eq("ZZ")))
+                .orderBy(
+                        Expressions.stringTemplate("(cast({0} as integer) - {1} + 12) % 12", se.statisticsMonth, currentMonth).asc()
+                )
                 .fetch();
     }
 

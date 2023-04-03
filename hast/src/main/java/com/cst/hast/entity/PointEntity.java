@@ -2,6 +2,8 @@ package com.cst.hast.entity;
 
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Subselect;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

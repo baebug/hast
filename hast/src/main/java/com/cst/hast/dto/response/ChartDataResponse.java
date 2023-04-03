@@ -11,8 +11,8 @@ import java.util.*;
 public class ChartDataResponse {
 
     private Integer name;
-    private float country_tone;
-    private float world_tone;
+    private String country_tone;
+    private String world_tone;
     private Integer bar;
     private List<PieDataResponse> pie;
 
@@ -34,8 +34,8 @@ public class ChartDataResponse {
 
         return new ChartDataResponse(
                 Integer.parseInt(chartData.getName()),
-                chartData.getCountry_tone() / chartData.getBar(),
-                chartData.getWorld_tone(),
+                String.format("%.2f", chartData.getCountry_tone() / chartData.getBar()),
+                String.format("%.2f", chartData.getWorld_tone()),
                 chartData.getBar(),
                 pieList
         );
