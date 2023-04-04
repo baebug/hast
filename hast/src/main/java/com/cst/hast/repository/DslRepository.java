@@ -38,7 +38,6 @@ public class DslRepository {
     private final JPAQueryFactory queryFactory;
 
     // 2d 맵 점 찍기 - 세계
-    // dto로 받기
     public List<ExportEntity> findWorldDots() {
         return queryFactory.select(constructor(
                         ExportEntity.class,
@@ -48,11 +47,11 @@ public class DslRepository {
                         exportEntity.exportRowCount.sum()))
                 .from(exportEntity)
                 .groupBy(exportEntity.exportLat, exportEntity.exportLong)
+                .where(exportEntity.exportScore.goe(0))
                 .fetch();
     }
 
     // 2d 맵 점 찍기 - 국가
-    // dto로 받기
     public List<ExportEntity> findCountryDots(String code) {
         return queryFactory.select(constructor(
                         ExportEntity.class,
@@ -63,12 +62,12 @@ public class DslRepository {
                 .from(exportEntity)
                 .where(exportEntity.exportCountryCode.eq(code))
                 .groupBy(exportEntity.exportLat, exportEntity.exportLong)
+                .where(exportEntity.exportScore.goe(0))
                 .fetch();
     }
 
 
     // 메인 페이지 점
-    // dto로 받기
     public List<ExportEntity> findCountryScore() {
         return queryFactory.select(constructor(
                         ExportEntity.class,

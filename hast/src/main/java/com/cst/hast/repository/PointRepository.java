@@ -25,6 +25,7 @@ public interface PointRepository extends JpaRepository<PointEntity, Long>{
             "    ) " +
             "    GROUP BY point_url " +
             ") pt2 ON pt.point_url = pt2.point_url AND pt.point_event_id = pt2.min_id " +
+            "WHERE pt.point_score >= 0 " +
             "ORDER BY pt.point_datetime desc " +
             "LIMIT 500", nativeQuery = true)
     public List<PointEntity> findByLocation(@Param("lat") double lat, @Param("lon") double lon);
@@ -37,7 +38,7 @@ public interface PointRepository extends JpaRepository<PointEntity, Long>{
             "    FROM point_table " +
             "    GROUP BY point_url " +
             ") pt2 ON pt.point_url = pt2.point_url AND pt.point_event_id = pt2.min_id " +
-            "WHERE pt.point_country_code =:code " +
+            "WHERE pt.point_country_code =:code AND pt.point_score >= 0 " +
             "ORDER BY pt.point_datetime desc " +
             "limit 500;", nativeQuery = true)
     public List<PointEntity> findUpdatedArticles(String code);
