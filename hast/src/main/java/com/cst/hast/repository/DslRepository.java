@@ -47,7 +47,7 @@ public class DslRepository {
                         exportEntity.exportRowCount.sum()))
                 .from(exportEntity)
                 .groupBy(exportEntity.exportLat, exportEntity.exportLong)
-                .where(exportEntity.exportScore.goe(0))
+                .where(exportEntity.exportScore.goe(0).and(exportEntity.exportRowCount.gt(0)))
                 .fetch();
     }
 
@@ -60,7 +60,7 @@ public class DslRepository {
                         exportEntity.exportScore.sum(),
                         exportEntity.exportRowCount.sum()))
                 .from(exportEntity)
-                .where(exportEntity.exportCountryCode.eq(code))
+                .where(exportEntity.exportCountryCode.eq(code).and(exportEntity.exportRowCount.gt(0)))
                 .groupBy(exportEntity.exportLat, exportEntity.exportLong)
                 .where(exportEntity.exportScore.goe(0))
                 .fetch();
