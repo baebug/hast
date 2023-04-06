@@ -287,7 +287,7 @@ function World() {
                   width={width + 500}
                   height={height}
                   onGlobeReady={autoRotate}
-                  globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+                  globeImageUrl="https://unpkg.com/three-globe/example/img/earth-night.jpg"
                   // globeImageUrl="/map/earthmap3.jpg"
                   backgroundImageUrl="/assets/dark3.jpg"
                   // backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
