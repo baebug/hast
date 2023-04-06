@@ -6,6 +6,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@googlemaps/markerclusterer": "^2.0.15",
+    "@googlemaps/markerclustererplus": "^1.2.10",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.13",
     "@react-google-maps/api": "^2.18.1",

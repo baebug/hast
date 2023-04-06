@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./Loading.module.css";
 
-function Loading() {
+function Loading({ isLoading }) {
   const isMobile = useSelector((state) => state.status.isMobile);
   const [text, setText] = useState("");
   useState(() => {
@@ -31,27 +31,29 @@ function Loading() {
           }}
         />
       )}
-      <div
-        className={
-          isMobile
-            ? `${styles.geeks} ${styles.mobile}`
-            : `${styles.geeks} ${styles.pc}`
-        }
-      >
-        <span>H</span>
-        <span>a</span>
-        <span>v</span>
-        <span>e </span>
-        <span> A </span>
-        <span> S</span>
-        <span>a</span>
-        <span>f</span>
-        <span>e </span>
-        <span> T</span>
-        <span>r</span>
-        <span>i</span>
-        <span>p</span>
-      </div>
+      {isLoading && (
+        <div
+          className={
+            isMobile
+              ? `${styles.geeks} ${styles.mobile}`
+              : `${styles.geeks} ${styles.pc}`
+          }
+        >
+          <span>H</span>
+          <span>a</span>
+          <span>v</span>
+          <span>e </span>
+          <span> A </span>
+          <span> S</span>
+          <span>a</span>
+          <span>f</span>
+          <span>e </span>
+          <span> T</span>
+          <span>r</span>
+          <span>i</span>
+          <span>p</span>
+        </div>
+      )}
     </div>
   );
 }

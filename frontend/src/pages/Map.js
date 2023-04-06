@@ -19,7 +19,7 @@ export default function Map() {
 
   const isMobile = useSelector((state) => state.status.isMobile);
 
-  const [loadingPage, setLodingPage] = useState(true);
+  const [loadingPage, setLoadingPage] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   // useState에 따라 language(en-ko) 바뀌게끔
   const language = useSelector((state) => state.language.value);
@@ -36,6 +36,10 @@ export default function Map() {
       // console.log(location.state?.countryInfo);
       setCountryInfo(location.state?.countryInfo);
     }
+
+    setTimeout(function () {
+      setLoadingPage(false);
+    }, 3000);
   }, []);
 
   useEffect(() => {
@@ -358,260 +362,263 @@ export default function Map() {
     });
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <div
-      style={{
-        height: "100vh",
-        width: "100%",
-        position: "relative",
-        cursor: "pointer",
-      }}
-    >
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: MyKey,
-          language: language, // 언어 설정에 따라 달라지게끔
-          region: countryInfo.country, // https://en.wikipedia.org/wiki/ISO_3166-1
-          libraries: ["places", "geometry"],
-        }}
-        defaultCenter={{
-          lat: countryInfo.latitude,
-          lng: countryInfo.longitude,
-        }}
-        center={center}
-        zoom={zoom}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => {
-          // Save the map and maps variables to the ref object
-          mapRef.current = { map, maps };
-          // 지도 클릭 이벤트 추가 (마커 제외)
-          maps.event.addListener(map, "click", (e) => onClickHandler(e));
-
-          // createMarker
-          createMarker(map, maps);
-
-          // 줌 변경될 때 변경된 zoom level 가져오게끔
-          map.addListener("zoom_changed", () => handleZoomChange(map));
-        }}
-        onChildClick={markerClicked}
-        options={mapStyles}
-        // 히트맵으로 변경
-        heatmapLibrary={true}
-        heatmap={heatmapData}
-      >
-        {zoom >= 12 &&
-          finish &&
-          showH &&
-          hospital.map((hos) => (
-            <PlacesMarker
-              key={hos.placeId}
-              id={1}
-              lat={hos.lat}
-              lng={hos.lng}
-              place={hos}
-              target={hos.placeId === target}
-            />
-          ))}
-        {zoom >= 12 &&
-          finish &&
-          showP &&
-          police.map((pol) => (
-            <PlacesMarker
-              key={pol.placeId}
-              id={2}
-              lat={pol.lat}
-              lng={pol.lng}
-              place={pol}
-              target={pol.placeId === target}
-            />
-          ))}
-        {zoom >= 12 &&
-          finish &&
-          showE &&
-          embassy.map((emb) => (
-            <PlacesMarker
-              key={emb.placeId}
-              id={3}
-              lat={emb.lat}
-              lng={emb.lng}
-              place={emb}
-              target={emb.placeId === target}
-            />
-          ))}
-      </GoogleMapReact>
-
-      {/* 토글버튼 */}
-      <div>
-        <Toggle
-          icon="🏥"
-          place={"Loca1"}
-          idx={1}
-          toggle={toggle}
-          setToggle={setToggle}
-          setShowPlace={setShowH}
-          placeList={hospital}
-          getPlaces={getPlaces}
-          mapRef={mapRef}
-          center={center}
-          first={firstH}
-          setFirst={setFirstH}
-        />
-        <Toggle
-          icon="🚓"
-          place={"Loca2"}
-          idx={2}
-          toggle={toggle}
-          setToggle={setToggle}
-          setShowPlace={setShowP}
-          placeList={police}
-          getPlaces={getPlaces}
-          mapRef={mapRef}
-          center={center}
-          first={firstP}
-          setFirst={setFirstP}
-        />
-        <Toggle
-          icon="🌐"
-          place={"Loca3"}
-          idx={3}
-          toggle={toggle}
-          setToggle={setToggle}
-          setShowPlace={setShowE}
-          placeList={embassy}
-          getPlaces={getPlaces}
-          mapRef={mapRef}
-          center={center}
-          first={firstE}
-          setFirst={setFirstE}
-        />
+  return (
+    <>
+      {loadingPage && <Loading isLoading={loadingPage} />}
+      {!isLoading && (
         <div
           style={{
-            position: "absolute",
-            top: isMobile ? "60px" : "75px",
-            left: "20px",
-            fontSize: isMobile ? "0.8rem" : "0.9rem",
-            fontWeight: "bold",
-            color: "rgb(107, 107, 107)",
-            margin: 0,
+            height: "100vh",
+            width: "100%",
+            position: "relative",
+            cursor: "pointer",
           }}
         >
-          {language === "en"
-            ? "Click on the coordinates for more information"
-            : "원하는 위치를 클릭하여 상세 정보를 확인하세요"}
-        </div>
-      </div>
+          <GoogleMapReact
+            bootstrapURLKeys={{
+              key: MyKey,
+              language: language, // 언어 설정에 따라 달라지게끔
+              region: countryInfo.country, // https://en.wikipedia.org/wiki/ISO_3166-1
+              libraries: ["places", "geometry"],
+            }}
+            defaultCenter={{
+              lat: countryInfo.latitude,
+              lng: countryInfo.longitude,
+            }}
+            center={center}
+            zoom={zoom}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => {
+              // Save the map and maps variables to the ref object
+              mapRef.current = { map, maps };
+              // 지도 클릭 이벤트 추가 (마커 제외)
+              maps.event.addListener(map, "click", (e) => onClickHandler(e));
 
-      {/* 반응형 */}
-      {isMobile ? (
-        <div>
-          <Link to="/">
+              // createMarker
+              createMarker(map, maps);
+
+              // 줌 변경될 때 변경된 zoom level 가져오게끔
+              map.addListener("zoom_changed", () => handleZoomChange(map));
+            }}
+            onChildClick={markerClicked}
+            options={mapStyles}
+            // 히트맵으로 변경
+            heatmapLibrary={true}
+            heatmap={heatmapData}
+          >
+            {zoom >= 12 &&
+              finish &&
+              showH &&
+              hospital.map((hos) => (
+                <PlacesMarker
+                  key={hos.placeId}
+                  id={1}
+                  lat={hos.lat}
+                  lng={hos.lng}
+                  place={hos}
+                  target={hos.placeId === target}
+                />
+              ))}
+            {zoom >= 12 &&
+              finish &&
+              showP &&
+              police.map((pol) => (
+                <PlacesMarker
+                  key={pol.placeId}
+                  id={2}
+                  lat={pol.lat}
+                  lng={pol.lng}
+                  place={pol}
+                  target={pol.placeId === target}
+                />
+              ))}
+            {zoom >= 12 &&
+              finish &&
+              showE &&
+              embassy.map((emb) => (
+                <PlacesMarker
+                  key={emb.placeId}
+                  id={3}
+                  lat={emb.lat}
+                  lng={emb.lng}
+                  place={emb}
+                  target={emb.placeId === target}
+                />
+              ))}
+          </GoogleMapReact>
+
+          {/* 토글버튼 */}
+          <div>
+            <Toggle
+              icon="🏥"
+              place={"Loca1"}
+              idx={1}
+              toggle={toggle}
+              setToggle={setToggle}
+              setShowPlace={setShowH}
+              placeList={hospital}
+              getPlaces={getPlaces}
+              mapRef={mapRef}
+              center={center}
+              first={firstH}
+              setFirst={setFirstH}
+            />
+            <Toggle
+              icon="🚓"
+              place={"Loca2"}
+              idx={2}
+              toggle={toggle}
+              setToggle={setToggle}
+              setShowPlace={setShowP}
+              placeList={police}
+              getPlaces={getPlaces}
+              mapRef={mapRef}
+              center={center}
+              first={firstP}
+              setFirst={setFirstP}
+            />
+            <Toggle
+              icon="🌐"
+              place={"Loca3"}
+              idx={3}
+              toggle={toggle}
+              setToggle={setToggle}
+              setShowPlace={setShowE}
+              placeList={embassy}
+              getPlaces={getPlaces}
+              mapRef={mapRef}
+              center={center}
+              first={firstE}
+              setFirst={setFirstE}
+            />
             <div
               style={{
                 position: "absolute",
-                bottom: "42px",
-                left: "8px",
-                display: "flex",
-                alignItems: "center",
-                fontSize: "14px",
+                top: isMobile ? "60px" : "75px",
+                left: "20px",
+                fontSize: isMobile ? "0.8rem" : "0.9rem",
+                fontWeight: "bold",
+                color: "rgb(107, 107, 107)",
+                margin: 0,
               }}
             >
-              <img
-                src="/assets/back.png"
-                alt="뒤로가기"
-                width={50}
-                style={{ zIndex: 10 }}
-              />
-              <div
-                style={{
-                  position: "relative",
-                  left: "-20px",
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  padding: "3px 8px 3px 15px",
-                  fontWeight: "bold",
-                  color: "grey",
-                }}
-              >
-                {t("goMain.Title")}
-              </div>
+              {language === "en"
+                ? "Click on the coordinates for more information"
+                : "원하는 위치를 클릭하여 상세 정보를 확인하세요"}
             </div>
-          </Link>
+          </div>
 
-          <div
-            style={{
-              position: "absolute",
-              bottom: "50px",
-              right: "10px",
-              display: "flex",
-              alignItems: "center",
-              fontSize: "0.8rem",
-              cursor: "pointer",
-              padding: "3px",
-              backgroundColor: "#FFFFFF90",
-              borderRadius: "50px",
-            }}
-            onClick={Initialize}
-          >
-            <img src="/assets/reset.png" alt="reset" width="25px" />
-          </div>
-          <MapDrawer allNews={allNews} setAllNews={setAllNews} />
-        </div>
-      ) : (
-        <div>
-          <Link to="/">
-            <div
-              style={{
-                position: "absolute",
-                bottom: "3px",
-                left: "8px",
-                display: "flex",
-                alignItems: "center",
-                fontSize: "1rem",
-              }}
-            >
-              <img
-                src="/assets/back.png"
-                alt="뒤로가기"
-                width={55}
-                style={{ zIndex: 10 }}
-              />
+          {/* 반응형 */}
+          {isMobile ? (
+            <div>
+              <Link to="/">
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "42px",
+                    left: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "14px",
+                  }}
+                >
+                  <img
+                    src="/assets/back.png"
+                    alt="뒤로가기"
+                    width={50}
+                    style={{ zIndex: 10 }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      left: "-20px",
+                      backgroundColor: "white",
+                      borderRadius: "8px",
+                      padding: "3px 8px 3px 15px",
+                      fontWeight: "bold",
+                      color: "grey",
+                    }}
+                  >
+                    {t("goMain.Title")}
+                  </div>
+                </div>
+              </Link>
+
               <div
                 style={{
-                  position: "relative",
-                  left: "-25px",
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  padding: "3px 8px 3px 20px",
-                  fontWeight: "bold",
-                  color: "grey",
+                  position: "absolute",
+                  bottom: "50px",
+                  right: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "0.8rem",
+                  cursor: "pointer",
+                  padding: "3px",
+                  backgroundColor: "#FFFFFF90",
+                  borderRadius: "50px",
                 }}
+                onClick={Initialize}
               >
-                {t("goMain.Title")}
+                <img src="/assets/reset.png" alt="reset" width="25px" />
               </div>
+              <MapDrawer allNews={allNews} setAllNews={setAllNews} />
             </div>
-          </Link>
-          <div
-            style={{
-              position: "absolute",
-              bottom: "20px",
-              right: "6px",
-              display: "flex",
-              alignItems: "center",
-              fontSize: "0.8rem",
-              cursor: "pointer",
-              padding: "3px",
-              backgroundColor: "#FFFFFF90",
-              // borderRadius: "50px"
-            }}
-            onClick={Initialize}
-          >
-            <img src="/assets/reset.png" alt="reset" width="30px" />
-          </div>
-          <Sidebar allNews={allNews} setAllNews={setAllNews} />
+          ) : (
+            <div>
+              <Link to="/">
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "3px",
+                    left: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "1rem",
+                  }}
+                >
+                  <img
+                    src="/assets/back.png"
+                    alt="뒤로가기"
+                    width={55}
+                    style={{ zIndex: 10 }}
+                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      left: "-25px",
+                      backgroundColor: "white",
+                      borderRadius: "8px",
+                      padding: "3px 8px 3px 20px",
+                      fontWeight: "bold",
+                      color: "grey",
+                    }}
+                  >
+                    {t("goMain.Title")}
+                  </div>
+                </div>
+              </Link>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  right: "6px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "0.8rem",
+                  cursor: "pointer",
+                  padding: "3px",
+                  backgroundColor: "#FFFFFF90",
+                  // borderRadius: "50px"
+                }}
+                onClick={Initialize}
+              >
+                <img src="/assets/reset.png" alt="reset" width="30px" />
+              </div>
+              <Sidebar allNews={allNews} setAllNews={setAllNews} />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }
