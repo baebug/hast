@@ -32,7 +32,7 @@ public class Article {
                 entity.getPointImage(),
                 entity.getPointCategory(),
                 entity.getPointScore(),
-                entity.getPointDatetime().toString()
+                entity.getPointDatetime().plusHours(9L).toString()
         );
     }
 
