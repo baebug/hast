@@ -228,7 +228,7 @@ export default function Map() {
   const onClickHandler = (e) => {
     // console.log(e.latLng.lat(), e.latLng.lng())
     setCenter({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-    setZoom(13);
+    setZoom(12);
     console.log(
       `클릭 이벤트 center : ${center.lat} ${center.lng}, zoom: ${zoom}`
     );
@@ -349,6 +349,7 @@ export default function Map() {
     });
 
     new MarkerClusterer(map, markers, {
+      maxZoom: 21,
       imagePath:
         "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
 
