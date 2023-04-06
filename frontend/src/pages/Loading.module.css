@@ -23,6 +23,11 @@
   transition: all 0.5s;
   animation: animate 2s infinite;
 }
+/* 
+.geeks span.stop {
+  animation-play-state: paused;
+}
+ */
 
 .pc span {
   font-size: 24px;
